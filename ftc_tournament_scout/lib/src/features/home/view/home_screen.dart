@@ -11,6 +11,7 @@ import '../../../shared/views/views.dart';
 import '../../../utils/adaptive_components.dart';
 import '../../playlists/view/event_teams.dart';
 import 'view.dart';
+import 'package:http/http.dart' as http; // DO THIS https://docs.flutter.dev/cookbook/networking/fetch-data
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -160,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     EventTeams(
                                       event: testEvent
                                     ),
-                              ),
+                              )
                             ],
                           ),
                         ),
