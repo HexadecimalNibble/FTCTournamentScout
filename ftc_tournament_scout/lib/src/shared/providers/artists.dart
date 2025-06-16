@@ -27,30 +27,30 @@ class ArtistsProvider {
         '#HappyGalentinesDay!!! Chocolates. Ice Cream. Your favorite rom-com. Let\'s goo!!! 💕✨',
       ],
       events: [
-        Event(
-          date: '1/20/22',
-          title: 'Jessie Morrison: No More Heartbreak Tour',
-          location: 'Mountain View, California',
-          link: 'Tickets',
-        ),
-        Event(
-          date: '1/22/22',
-          title: 'Jessie Morrison: No More Heartbreak Tour',
-          location: 'Austin, Texas',
-          link: 'Tickets',
-        ),
-        Event(
-          date: '1/23/22',
-          title: 'Jessie Morrison: No More Heartbreak Tour',
-          location: 'Houston, Texas',
-          link: 'Tickets',
-        ),
-        Event(
-          date: '2/8/22',
-          title: 'Jessie Morrison: No More Heartbreak Tour',
-          location: 'Los Angeles, California',
-          link: 'Tickets',
-        ),
+        // Event(
+        //   date: '1/20/22',
+        //   title: 'Jessie Morrison: No More Heartbreak Tour',
+        //   location: 'Mountain View, California',
+        //   link: 'Tickets',
+        // ),
+        // Event(
+        //   date: '1/22/22',
+        //   title: 'Jessie Morrison: No More Heartbreak Tour',
+        //   location: 'Austin, Texas',
+        //   link: 'Tickets',
+        // ),
+        // Event(
+        //   date: '1/23/22',
+        //   title: 'Jessie Morrison: No More Heartbreak Tour',
+        //   location: 'Houston, Texas',
+        //   link: 'Tickets',
+        // ),
+        // Event(
+        //   date: '2/8/22',
+        //   title: 'Jessie Morrison: No More Heartbreak Tour',
+        //   location: 'Los Angeles, California',
+        //   link: 'Tickets',
+        // ),
       ],
       news: [
         News(
@@ -83,30 +83,30 @@ class ArtistsProvider {
         'We\'re going all in this weekend! How are you doing, Vegas?!',
       ],
       events: [
-        Event(
-          date: '5/16/22',
-          title: 'Back To My Hometown Tour',
-          location: 'Indianapolis, IN',
-          link: 'Tickets',
-        ),
-        Event(
-          date: '5/18/22',
-          title: 'Back To My Hometown Tour',
-          location: 'San Antonio, TX',
-          link: 'Tickets',
-        ),
-        Event(
-          date: '5/20/22',
-          title: 'Back To My Hometown Tour',
-          location: 'Phoenix, AZ',
-          link: 'Tickets',
-        ),
-        Event(
-          date: '5/23/22',
-          title: 'Back To My Hometown Tour',
-          location: 'San Diego, CA',
-          link: 'Tickets',
-        ),
+        // Event(
+        //   date: '5/16/22',
+        //   title: 'Back To My Hometown Tour',
+        //   location: 'Indianapolis, IN',
+        //   link: 'Tickets',
+        // ),
+        // Event(
+        //   date: '5/18/22',
+        //   title: 'Back To My Hometown Tour',
+        //   location: 'San Antonio, TX',
+        //   link: 'Tickets',
+        // ),
+        // Event(
+        //   date: '5/20/22',
+        //   title: 'Back To My Hometown Tour',
+        //   location: 'Phoenix, AZ',
+        //   link: 'Tickets',
+        // ),
+        // Event(
+        //   date: '5/23/22',
+        //   title: 'Back To My Hometown Tour',
+        //   location: 'San Diego, CA',
+        //   link: 'Tickets',
+        // ),
       ],
       news: [
         News(
@@ -139,30 +139,30 @@ class ArtistsProvider {
         '#FallingForYou dropping in 5 days! Send me your favorite music video concepts 🎥 😎',
       ],
       events: [
-        Event(
-          date: '10/22/21',
-          title: 'Falling For You Tour',
-          location: 'Dallas, Texas',
-          link: 'Ticketmaster',
-        ),
-        Event(
-          date: '10/23/21',
-          title: 'Falling For You Tour',
-          location: 'Houston, Texas',
-          link: 'Ticketmaster',
-        ),
-        Event(
-          date: '10/26/21',
-          title: 'Falling For You Tour',
-          location: 'Phoenix, Arizona',
-          link: 'Ticketmaster',
-        ),
-        Event(
-          date: '10/27/21',
-          title: 'Falling For You Tour',
-          location: 'Los Angeles, California',
-          link: 'Ticketmaster',
-        ),
+        // Event(
+        //   date: '10/22/21',
+        //   title: 'Falling For You Tour',
+        //   location: 'Dallas, Texas',
+        //   link: 'Ticketmaster',
+        // ),
+        // Event(
+        //   date: '10/23/21',
+        //   title: 'Falling For You Tour',
+        //   location: 'Houston, Texas',
+        //   link: 'Ticketmaster',
+        // ),
+        // Event(
+        //   date: '10/26/21',
+        //   title: 'Falling For You Tour',
+        //   location: 'Phoenix, Arizona',
+        //   link: 'Ticketmaster',
+        // ),
+        // Event(
+        //   date: '10/27/21',
+        //   title: 'Falling For You Tour',
+        //   location: 'Los Angeles, California',
+        //   link: 'Ticketmaster',
+        // ),
       ],
       news: [
         News(

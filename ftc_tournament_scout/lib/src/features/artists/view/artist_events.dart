@@ -61,8 +61,9 @@ class ArtistEvents extends StatelessWidget {
               ),
             ),
           ),
-          title: Text(item.title),
-          subtitle: Text(item.location),
+          title: Text(item.name),
+          subtitle: Text(item.name),
+          // subtitle: Text(item.location),
           trailing: IconButton(
             icon: const Icon(Icons.info_outline),
             onPressed: () {},
@@ -79,20 +80,22 @@ class ArtistEvents extends StatelessWidget {
         index: index,
         cells: [
           DataCell(Text(item.date)),
-          DataCell(Row(children: [Expanded(child: Text(item.title))])),
-          DataCell(Text(item.location)),
-          DataCell(
-            Clickable(
-              child: Text(
-                item.link,
-                style: TextStyle(
-                  color: linkColor.value(theme),
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-              onTap: () => launchUrl(Uri.parse('https://docs.flutter.dev')),
-            ),
-          ),
+          DataCell(Row(children: [Expanded(child: Text(item.name))])),
+          DataCell(Text(item.name)),
+          DataCell(Text(item.name))
+          // DataCell(Text(item.location)),
+          // DataCell(
+          //   Clickable(
+          //     child: Text(
+          //       item.link,
+          //       style: TextStyle(
+          //         color: linkColor.value(theme),
+          //         decoration: TextDecoration.underline,
+          //       ),
+          //     ),
+          //     onTap: () => launchUrl(Uri.parse('https://docs.flutter.dev')),
+          //   ),
+          // ),
         ],
       ),
     );

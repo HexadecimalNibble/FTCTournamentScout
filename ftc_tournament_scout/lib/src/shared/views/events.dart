@@ -34,21 +34,24 @@ class Events extends StatelessWidget {
               DataRow(
                 cells: <DataCell>[
                   DataCell(Text(event.date)),
-                  DataCell(Row(children: [Expanded(child: Text(event.title))])),
-                  DataCell(Text(event.location)),
-                  DataCell(
-                    Clickable(
-                      child: Text(
-                        event.link,
-                        style: TextStyle(
-                          color: linkColor.value(theme),
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                      onTap: () =>
-                          launchUrl(Uri.parse('https://docs.flutter.dev')),
-                    ),
-                  ),
+                  DataCell(Text(event.name)),
+                  DataCell(Text(event.name)),
+                  DataCell(Text(event.name))
+                  // DataCell(Row(children: [Expanded(child: Text(event.title))])),
+                  // DataCell(Text(event.location)),
+                  // DataCell(
+                  //   Clickable(
+                  //     child: Text(
+                  //       event.link,
+                  //       style: TextStyle(
+                  //         color: linkColor.value(theme),
+                  //         decoration: TextDecoration.underline,
+                  //       ),
+                  //     ),
+                  //     onTap: () =>
+                  //         launchUrl(Uri.parse('https://docs.flutter.dev')),
+                  //   ),
+                  // ),
                 ],
               ),
           ],
@@ -101,8 +104,8 @@ class Events extends StatelessWidget {
           ),
         ),
       ),
-      title: Text(event.title),
-      subtitle: Text(event.location),
+      // title: Text(event.title),
+      // subtitle: Text(event.location),
       trailing: IconButton(
         icon: const Icon(Icons.info_outline),
         onPressed: () {},

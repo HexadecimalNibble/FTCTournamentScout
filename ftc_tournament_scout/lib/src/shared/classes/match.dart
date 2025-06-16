@@ -6,13 +6,10 @@ import './classes.dart';
 
 class Match {
   const Match({
-    required this.title,
-    required this.artist,
-    required this.length,
-    required this.image
+    required this.red1,
+    required this.red2,
+    required this.blue1,
+    required this.blue2 
 });
-  final Team artist;
-  final String title;
-  final Duration length;
-  final MyArtistImage image;
+  final Team red1, red2, blue1, blue2;
 }

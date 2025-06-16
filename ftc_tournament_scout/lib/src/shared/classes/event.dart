@@ -2,16 +2,18 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import './classes.dart';
+
 class Event {
   const Event({
     required this.date,
-    required this.title,
-    required this.location,
-    required this.link,
+    required this.name,
+    required this.teams,
+    required this.matches
   });
 
   final String date;
-  final String title;
-  final String location;
-  final String link;
+  final String name;
+  final List<Team> teams;
+  final List<Match> matches;
 }

@@ -9,7 +9,7 @@ import '../../../shared/extensions.dart';
 import '../../../shared/providers/providers.dart';
 import '../../../shared/views/views.dart';
 import '../../../utils/adaptive_components.dart';
-import '../../playlists/view/playlist_songs.dart';
+import '../../playlists/view/event_teams.dart';
 import 'view.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,12 +22,14 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final PlaylistsProvider playlistProvider = PlaylistsProvider();
-    final List<Playlist> playlists = playlistProvider.playlists;
-    final Playlist topSongs = playlistProvider.topSongs;
-    final Playlist newReleases = playlistProvider.newReleases;
-    final ArtistsProvider artistsProvider = ArtistsProvider();
-    final List<Artist> artists = artistsProvider.artists;
+    // final PlaylistsProvider playlistProvider = PlaylistsProvider();
+    // final List<Playlist> playlists = playlistProvider.playlists;
+    // final Playlist topSongs = playlistProvider.topSongs;
+    // final Playlist newReleases = playlistProvider.newReleases;
+    // final ArtistsProvider artistsProvider = ArtistsProvider();
+    // final List<Artist> artists = artistsProvider.artists;
+    final Event testEvent = Event(date: "5/5/25", name: "test event", teams: <Team>[Team(number: 1, name: "testname", opr: 123.0)], matches: <Match>[Match(red1: Team(number: 1, name: "testname", opr: 123.0), red2: Team(number: 1, name: "testname", opr: 123.0), blue1: Team(number: 1, name: "testname", opr: 123.0), blue2: Team(number: 1, name: "testname", opr: 123.0))]);
+
     return LayoutBuilder(
       builder: (context, constraints) {
         // if (constraints.isMobile) {
@@ -99,18 +101,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 AdaptiveContainer(
                   columnSpan: 12,
-                  child: Column(
-                    children: [
-                      const HomeHighlight(),
-                      LayoutBuilder(
-                        builder: (context, constraints) => HomeArtists(
-                          artists: artists,
-                          constraints: constraints,
-                        ),
-                      ),
-                    ],
-                  ),
+                  child: const HomeHighlight(),
                 ),
+                // AdaptiveContainer(
+                //   columnSpan: 12,
+                //   child: Column(
+                //     children: [
+                //       const HomeHighlight(),
+                //       LayoutBuilder(
+                //         builder: (context, constraints) => HomeArtists(
+                //           artists: artists,
+                //           constraints: constraints,
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 // CAN PROB USE THIS ONE TO SELECT TOURNAMENTS IN A SETTING MENU OR SOMETHING
                 // AdaptiveContainer(
                 //   columnSpan: 12,
@@ -151,9 +157,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               LayoutBuilder(
                                 builder: (context, constraints) =>
-                                    PlaylistSongs(
-                                      playlist: topSongs,
-                                      constraints: constraints,
+                                    EventTeams(
+                                      event: testEvent
                                     ),
                               ),
                             ],
@@ -180,16 +185,14 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               LayoutBuilder(
                                 builder: (context, constraints) =>
-                                    PlaylistSongs(
-                                      playlist: topSongs,
-                                      constraints: constraints,
+                                    EventTeams(
+                                      event: testEvent
                                     ),
                               ),
                             ],
                           ),
                         ),
-                ),
-
+                )
                 // AdaptiveContainer(
                 //   columnSpan: 12,
                 //   child: Padding(
