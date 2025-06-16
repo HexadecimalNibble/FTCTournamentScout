@@ -5,7 +5,9 @@
 export './artist.dart';
 export './event.dart';
 export './image.dart';
+export './match.dart';
 export './news.dart';
 export './playlist.dart';
 export './ranked_song.dart';
 export './song.dart';
+export './team.dart';
