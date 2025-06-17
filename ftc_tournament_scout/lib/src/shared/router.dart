@@ -7,8 +7,8 @@ import 'package:go_router/go_router.dart';
 
 import '../features/artists/artists.dart';
 import '../features/home/home.dart';
-import '../features/playlists/playlists.dart';
-import '../features/playlists/view/view.dart';
+import '../features/teams/teams.dart';
+import '../features/teams/view/view.dart';
 import 'providers/artists.dart';
 import 'providers/playlists.dart';
 import 'views/views.dart';
@@ -22,8 +22,8 @@ final playlistsProvider = PlaylistsProvider();
 const List<NavigationDestination> destinations = [
   NavigationDestination(label: 'Home', icon: Icon(Icons.home), route: '/'),
   NavigationDestination(
-    label: 'Playlists',
-    icon: Icon(Icons.playlist_add_check),
+    label: 'Teams',
+    icon: Icon(Icons.terrain),
     route: '/playlists',
   ),
   NavigationDestination(

@@ -9,7 +9,7 @@ import '../../../shared/extensions.dart';
 import '../../../shared/providers/providers.dart';
 import '../../../shared/views/views.dart';
 import '../../../utils/adaptive_components.dart';
-import '../../playlists/view/event_teams.dart';
+import '../../teams/view/event_teams.dart';
 import 'view.dart';
 import 'package:http/http.dart' as http; // DO THIS https://docs.flutter.dev/cookbook/networking/fetch-data
 
@@ -103,6 +103,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 AdaptiveContainer(
                   columnSpan: 12,
                   child: const HomeHighlight(),
+                ),
+                AdaptiveContainer(
+                  columnSpan: 12,
+                  child: Text(
+                    "Selected Event: ${testEvent.name} ${testEvent.date}",
+                    style: context.titleLarge,
+                  ),
                 ),
                 // AdaptiveContainer(
                 //   columnSpan: 12,
