@@ -1,0 +1,95 @@
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+
+import '../shared/classes/team.dart';
+import 'result.dart';
+
+class DatabaseService {
+  DatabaseService({required this.databaseFactory});
+
+  final DatabaseFactory databaseFactory;
+
+  // #docregion Table
+  static const _kTableTeams = 'teams';
+  static const _kColumnNumber = 'number';
+  static const _kColumnName = 'name';
+  static const _kColumnOPR = 'opr';
+  // #enddocregion Table
+
+  Database? _database;
+
+  bool isOpen() => _database != null;
+
+  // #docregion Open
+  Future<void> open() async {
+    _database = await databaseFactory.openDatabase(
+      join(await databaseFactory.getDatabasesPath(), 'app_database.db'),
+      options: OpenDatabaseOptions(
+        onCreate: (db, version) {
+          return db.execute(
+            'CREATE TABLE $_kTableTeams($_kColumnNumber INTEGER PRIMARY KEY, $_kColumnName TEXT, $_kColumnOPR DOUBLE)',
+          );
+        },
+        version: 1,
+      ),
+    );
+  }
+  // #enddocregion Open
+
+  // #docregion Insert
+  Future<Result<Team>> insert(Team team) async {
+    try {
+      await _database!.insert(_kTableTeams, {_kColumnNumber: team.number, _kColumnName: team.name, _kColumnOPR: team.opr});
+      return Result.ok(team);
+    } on Exception catch (e) {
+      return Result.error(e);
+    }
+  }
+  // #enddocregion Insert
+
+  // #docregion GetAll
+  Future<Result<List<Team>>> getAll() async {
+    try {
+      final entries = await _database!.query(
+        _kTableTeams,
+        columns: [_kColumnNumber, _kColumnName, _kColumnOPR],
+      );
+      final list = entries
+          .map(
+            (element) => Team(
+              number: element[_kColumnNumber] as int,
+              name: element[_kColumnName] as String,
+              opr: element[_kColumnOPR] as double
+            ),
+          )
+          .toList();
+      return Result.ok(list);
+    } on Exception catch (e) {
+      return Result.error(e);
+    }
+  }
+  // #enddocregion GetAll
+
+  // #docregion Delete
+  Future<Result<void>> delete(int teamNumber) async {
+    try {
+      final rowsDeleted = await _database!.delete(
+        _kTableTeams,
+        where: '$_kColumnNumber = ?',
+        whereArgs: [teamNumber],
+      );
+      if (rowsDeleted == 0) {
+        return Result.error(Exception('No team found with teamNumber: $teamNumber'));
+      }
+      return Result.ok(null);
+    } on Exception catch (e) {
+      return Result.error(e);
+    }
+  }
+  // #enddocregion Delete
+
+  Future close() async {
+    await _database?.close();
+    _database = null;
+  }
+}

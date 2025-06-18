@@ -10,5 +10,4 @@ class Team {
   final int number;
   final String name;
   final double opr;
-  
 }

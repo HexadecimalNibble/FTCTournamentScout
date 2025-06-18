@@ -3,4 +3,5 @@
 // found in the LICENSE file.
 
 export 'teams_home_screen.dart';
-export 'playlist_screen.dart';
+// export 'playlist_screen.dart';
+export 'teams_screen.dart';
