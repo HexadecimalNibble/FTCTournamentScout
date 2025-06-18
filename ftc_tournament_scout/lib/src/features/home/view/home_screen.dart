@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import '../../../shared/classes/classes.dart';
 import '../../../shared/extensions.dart';
 import '../../../shared/providers/providers.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../shared/views/views.dart';
 import '../../../utils/adaptive_components.dart';
 import '../../teams/view/event_teams.dart';
@@ -29,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // final Playlist newReleases = playlistProvider.newReleases;
     // final ArtistsProvider artistsProvider = ArtistsProvider();
     // final List<Artist> artists = artistsProvider.artists;
-    final Event testEvent = Event(date: "5/5/25", name: "test event", teams: <Team>[Team(number: 1, name: "testname", opr: 123.0), Team(number: 13242, name: "team2", opr: 163.2)], matches: <Match>[Match(red1: Team(number: 1, name: "testname", opr: 123.0), red2: Team(number: 1, name: "testname", opr: 123.0), blue1: Team(number: 1, name: "testname", opr: 123.0), blue2: Team(number: 1, name: "testname", opr: 123.0))]);
+    // final Event testEvent = Event(date: "5/5/25", name: "test event", teams: <Team>[Team(number: 1, name: "testname", opr: 123.0), Team(number: 13242, name: "team2", opr: 163.2)], matches: <Match>[Match(red1: Team(number: 1, name: "testname", opr: 123.0), red2: Team(number: 1, name: "testname", opr: 123.0), blue1: Team(number: 1, name: "testname", opr: 123.0), blue2: Team(number: 1, name: "testname", opr: 123.0))]);
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -102,15 +103,37 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 AdaptiveContainer(
                   columnSpan: 12,
-                  child: const HomeHighlight(),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(15),
+                          child: Clickable(
+                            child: SizedBox(
+                              height: 275,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.asset(
+                                  'assets/images/news/concert.jpeg',
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            onTap: () => launchUrl(Uri.parse('https://docs.flutter.dev')),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
                 ),
-                AdaptiveContainer(
-                  columnSpan: 12,
-                  child: Text(
-                    "Selected Event: ${testEvent.name} ${testEvent.date}",
-                    style: context.titleLarge,
-                  ),
-                ),
+                // AdaptiveContainer(
+                //   columnSpan: 12,
+                //   child: Text(
+                //     "Selected Event: ${testEvent.name} ${testEvent.date}",
+                //     style: context.titleLarge,
+                //   ),
+                // ),
+
                 // AdaptiveContainer(
                 //   columnSpan: 12,
                 //   child: Column(
@@ -145,62 +168,64 @@ class _HomeScreenState extends State<HomeScreen> {
                 //     ],
                 //   ),
                 // ),
-                AdaptiveContainer(
-                  columnSpan: 12,
-                  child: Flexible(
-                          flex: 10,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 8,
-                                  bottom: 8,
-                                ),
-                                child: Text(
-                                  'Event Teams',
-                                  style: context.titleLarge,
-                                ),
-                              ),
-                              LayoutBuilder(
-                                builder: (context, constraints) =>
-                                    EventTeams(
-                                      event: testEvent
-                                    ),
-                              )
-                            ],
-                          ),
-                        ),
-                ),
-                AdaptiveContainer(
-                  columnSpan: 12,
-                  child: Flexible(
-                          flex: 10,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 8,
-                                  bottom: 8,
-                                ),
-                                child: Text(
-                                  'All Teams',
-                                  style: context.titleLarge,
-                                ),
-                              ),
-                              LayoutBuilder(
-                                builder: (context, constraints) =>
-                                    EventTeams(
-                                      event: testEvent
-                                    ),
-                              ),
-                            ],
-                          ),
-                        ),
-                )
+
+                // AdaptiveContainer(
+                //   columnSpan: 12,
+                //   child: Flexible(
+                //           flex: 10,
+                //           child: Column(
+                //             mainAxisAlignment: MainAxisAlignment.start,
+                //             crossAxisAlignment: CrossAxisAlignment.start,
+                //             children: [
+                //               Padding(
+                //                 padding: const EdgeInsets.only(
+                //                   left: 8,
+                //                   bottom: 8,
+                //                 ),
+                //                 child: Text(
+                //                   'Event Teams',
+                //                   style: context.titleLarge,
+                //                 ),
+                //               ),
+                //               LayoutBuilder(
+                //                 builder: (context, constraints) =>
+                //                     EventTeams(
+                //                       event: testEvent
+                //                     ),
+                //               )
+                //             ],
+                //           ),
+                //         ),
+                // ),
+                // AdaptiveContainer(
+                //   columnSpan: 12,
+                //   child: Flexible(
+                //           flex: 10,
+                //           child: Column(
+                //             mainAxisAlignment: MainAxisAlignment.start,
+                //             crossAxisAlignment: CrossAxisAlignment.start,
+                //             children: [
+                //               Padding(
+                //                 padding: const EdgeInsets.only(
+                //                   left: 8,
+                //                   bottom: 8,
+                //                 ),
+                //                 child: Text(
+                //                   'All Teams',
+                //                   style: context.titleLarge,
+                //                 ),
+                //               ),
+                //               LayoutBuilder(
+                //                 builder: (context, constraints) =>
+                //                     EventTeams(
+                //                       event: testEvent
+                //                     ),
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                // )
+
                 // AdaptiveContainer(
                 //   columnSpan: 12,
                 //   child: Padding(

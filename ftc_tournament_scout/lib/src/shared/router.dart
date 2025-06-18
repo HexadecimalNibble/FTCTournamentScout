@@ -19,7 +19,7 @@ const _pageKey = ValueKey('_pageKey');
 const _scaffoldKey = ValueKey('_scaffoldKey');
 
 final artistsProvider = ArtistsProvider();
-final playlistsProvider = PlaylistsProvider();
+// final playlistsProvider = PlaylistsProvider();
 
 const List<NavigationDestination> destinations = [
   NavigationDestination(label: 'Home', icon: Icon(Icons.home), route: '/'),

@@ -60,7 +60,13 @@ class TeamsScreen extends StatelessWidget {
                 ),
                 expandedHeight: headerHeight,
                 pinned: false,
-                flexibleSpace: FlexibleSpaceBar(
+                // flexibleSpace: ArticleContent(
+                //   child: EventTeams(
+                //     event: event
+                //   ),
+                // )
+
+                // flexibleSpace: FlexibleSpaceBar(
                   // background: AdaptiveImageCard(
                   //   axis: constraints.isMobile
                   //       ? Axis.vertical
@@ -117,7 +123,7 @@ class TeamsScreen extends StatelessWidget {
                   //     ],
                   //   ),
                   // ),
-                ),
+                // ),
               ),
               SliverToBoxAdapter(
                 child: ArticleContent(
