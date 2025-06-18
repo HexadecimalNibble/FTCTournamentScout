@@ -14,11 +14,11 @@ import '../../../shared/views/views.dart';
 // import 'playlist_songs.dart';
 import 'event_teams.dart';
 
-class TeamsScreen extends StatelessWidget {
-  const TeamsScreen({required this.event, super.key});
+class TeamScreen extends StatelessWidget {
+  const TeamScreen({required this.team, super.key});
 
   // final Playlist playlist;
-  final Event event;
+  final Team team;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +56,7 @@ class TeamsScreen extends StatelessWidget {
             slivers: [
               SliverAppBar(
                 leading: BackButton(
-                  onPressed: () => GoRouter.of(context).go('/playlists'),
+                  onPressed: () => GoRouter.of(context).go('/teams'),
                 ),
                 expandedHeight: headerHeight,
                 pinned: false,
@@ -131,9 +131,7 @@ class TeamsScreen extends StatelessWidget {
                   //   playlist: playlist,
                   //   constraints: constraints,
                   // ),
-                  child: EventTeams(
-                    event: event
-                  )
+                  child: Text(team.name)
                 ),
               ),
             ],

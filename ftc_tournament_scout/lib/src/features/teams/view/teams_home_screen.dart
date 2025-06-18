@@ -10,8 +10,8 @@ import '../../../shared/classes/classes.dart';
 import '../../../shared/providers/providers.dart';
 import '../../../shared/views/views.dart';
 
-class PlaylistHomeScreen extends StatelessWidget {
-  const PlaylistHomeScreen({super.key});
+class TeamsHomeScreen extends StatelessWidget {
+  const TeamsHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +53,7 @@ class PlaylistHomeScreen extends StatelessWidget {
               index: index,
               onSelectChanged: (selected) {
                 if (selected == true) {
-                  GoRouter.of(context).go('/playlists/${team.number}');
+                  GoRouter.of(context).go('/teams/${team.number}');
                 }
               },
               cells: [

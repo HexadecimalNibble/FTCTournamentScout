@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 export './artists.dart';
-export './playlists.dart';
+export './playlists.dart'; // TODO: REMOVE THIS EXPORT
+export './team.dart';
 export './songs.dart';
 export './theme.dart';

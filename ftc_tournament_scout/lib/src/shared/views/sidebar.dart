@@ -35,7 +35,7 @@ class SideBar extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.menu),
             title: const Text('Playlists'),
-            onTap: () => GoRouter.of(context).go('/playlists'),
+            onTap: () => GoRouter.of(context).go('/teams'),
           ),
           for (Playlist playlist in playlists)
             ListTile(

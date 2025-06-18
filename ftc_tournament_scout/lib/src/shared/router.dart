@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:ftc_tournament_scout/src/features/teams/view/playlist_screen.dart';
+// import 'package:ftc_tournament_scout/src/features/teams/view/playlist_screen.dart';
 import 'package:ftc_tournament_scout/src/shared/classes/classes.dart';
 import 'package:go_router/go_router.dart';
 
@@ -12,7 +12,8 @@ import '../features/home/home.dart';
 import '../features/teams/teams.dart';
 import '../features/teams/view/view.dart';
 import 'providers/artists.dart';
-import 'providers/playlists.dart';
+// import 'providers/playlists.dart';
+import 'providers/team.dart'
 import 'views/views.dart';
 
 const _pageKey = ValueKey('_pageKey');
@@ -20,13 +21,14 @@ const _scaffoldKey = ValueKey('_scaffoldKey');
 
 final artistsProvider = ArtistsProvider();
 // final playlistsProvider = PlaylistsProvider();
+final teamProvider = TeamProvider();
 
 const List<NavigationDestination> destinations = [
   NavigationDestination(label: 'Home', icon: Icon(Icons.home), route: '/'),
   NavigationDestination(
     label: 'Teams',
-    icon: Icon(Icons.terrain),
-    route: '/playlists',
+    icon: Icon(Icons.build),
+    route: '/teams',
   ),
   NavigationDestination(
     label: 'Artists',
@@ -63,13 +65,13 @@ final appRouter = GoRouter(
       ),
     ),
     GoRoute(
-      path: '/playlists',
+      path: '/teams',
       pageBuilder: (context, state) => const MaterialPage<void>(
         key: _pageKey,
         child: RootLayout(
           key: _scaffoldKey,
           currentIndex: 1,
-          child: PlaylistHomeScreen(),
+          child: TeamsHomeScreen(),
         ),
       ),
       routes: [
@@ -85,9 +87,11 @@ final appRouter = GoRouter(
               //     state.pathParameters['pid']!,
               //   )!,
               // ),
-              child: TeamsScreen(
-                event: Event(date: "5/5/25", name: "test event", teams: <Team>[Team(number: 1, name: "testname", opr: 123.0), Team(number: 13242, name: "team2", opr: 163.2)], matches: <Match>[Match(red1: Team(number: 1, name: "testname", opr: 123.0), red2: Team(number: 1, name: "testname", opr: 123.0), blue1: Team(number: 1, name: "testname", opr: 123.0), blue2: Team(number: 1, name: "testname", opr: 123.0))]),
+              child: TeamScreen(
+                teamProvider.getTeam(
+                  state.pathParameters['pid']!,
                 )!,
+              )!,
             ),
           ),
         ),

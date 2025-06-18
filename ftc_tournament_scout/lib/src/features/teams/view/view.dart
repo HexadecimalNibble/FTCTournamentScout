@@ -4,4 +4,4 @@
 
 export 'teams_home_screen.dart';
 // export 'playlist_screen.dart';
-export 'teams_screen.dart';
+export 'team_screen.dart';
