@@ -9,9 +9,12 @@ import 'package:go_router/go_router.dart';
 import '../../../shared/classes/classes.dart';
 import '../../../shared/providers/providers.dart';
 import '../../../shared/views/views.dart';
+import './teams_view_model.dart';
 
 class TeamsHomeScreen extends StatelessWidget {
-  const TeamsHomeScreen({super.key});
+  const TeamsHomeScreen({super.key, required this.viewModel});
+
+  final TeamsViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
