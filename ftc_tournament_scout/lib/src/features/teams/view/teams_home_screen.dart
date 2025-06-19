@@ -37,35 +37,60 @@ class TeamsHomeScreen extends StatelessWidget {
         title: const Text('Teams'),
         toolbarHeight: kToolbarHeight * 2,
       ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: DataTable(
-          showCheckboxColumn: false, // used to hide checkboxes from onSelectChanged
-          columns: const [
-            DataColumn(label: Text('#')),
-            DataColumn(label: Text('Name')),
-            DataColumn(label: Text('OPR')),
-          ],
-          rows: testEvent.teams.asMap().entries.map((entry) {
-            final index = entry.key;
-            final team  = entry.value;
-            return DataRow.byIndex(
-              index: index,
-              onSelectChanged: (selected) {
-                if (selected == true) {
-                  GoRouter.of(context).go('/teams/${team.number}');
-                }
+      body: Column(
+        children: [
+          Expanded(
+            child: ListenableBuilder(
+              listenable: widget.viewModel,
+              builder: (context, child) {
+                return ListView.builder(
+                  itemCount: widget.viewModel.todos.length,
+                  itemBuilder: (context, index) {
+                    final todo = widget.viewModel.todos[index];
+                    return ListTile(
+                      title: Text(todo.task),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () => widget.viewModel.delete.execute(todo.id),
+                      ),
+                    );
+                  },
+                );
               },
-              cells: [
-                DataCell(Text(team.number.toString())),
-                DataCell(Text(team.name)),
-                DataCell(Text(team.opr.toString())),
-              ],
-            );
-          }).toList(),
-        )
+            ),
+          ),
+        ],
+      )
+      
+      // SingleChildScrollView(
+      //   scrollDirection: Axis.vertical,
+      //   child: DataTable(
+      //     showCheckboxColumn: false, // used to hide checkboxes from onSelectChanged
+      //     columns: const [
+      //       DataColumn(label: Text('#')),
+      //       DataColumn(label: Text('Name')),
+      //       DataColumn(label: Text('OPR')),
+      //     ],
+      //     rows: testEvent.teams.asMap().entries.map((entry) {
+      //       final index = entry.key;
+      //       final team  = entry.value;
+      //       return DataRow.byIndex(
+      //         index: index,
+      //         onSelectChanged: (selected) {
+      //           if (selected == true) {
+      //             GoRouter.of(context).go('/teams/${team.number}');
+      //           }
+      //         },
+      //         cells: [
+      //           DataCell(Text(team.number.toString())),
+      //           DataCell(Text(team.name)),
+      //           DataCell(Text(team.opr.toString())),
+      //         ],
+      //       );
+      //     }).toList(),
+      //   )
 
-      ),
+      // ),
     );
   }
 }

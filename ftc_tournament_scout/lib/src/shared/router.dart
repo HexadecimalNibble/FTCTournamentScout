@@ -13,7 +13,7 @@ import '../features/teams/teams.dart';
 import '../features/teams/view/view.dart';
 import 'providers/artists.dart';
 // import 'providers/playlists.dart';
-import 'providers/team.dart'
+import 'providers/team.dart';
 import 'views/views.dart';
 
 const _pageKey = ValueKey('_pageKey');
@@ -21,7 +21,7 @@ const _scaffoldKey = ValueKey('_scaffoldKey');
 
 final artistsProvider = ArtistsProvider();
 // final playlistsProvider = PlaylistsProvider();
-final teamProvider = TeamProvider();
+// final teamProvider = TeamProvider();
 
 const List<NavigationDestination> destinations = [
   NavigationDestination(label: 'Home', icon: Icon(Icons.home), route: '/'),
@@ -87,11 +87,12 @@ final appRouter = GoRouter(
               //     state.pathParameters['pid']!,
               //   )!,
               // ),
-              child: TeamScreen(
-                teamProvider.getTeam(
-                  state.pathParameters['pid']!,
-                )!,
-              )!,
+              // child: TeamScreen(
+              //   teamProvider.getTeam(
+              //     state.pathParameters['pid']!,
+              //   )!,
+              // )!,
+              child: Text("test"),
             ),
           ),
         ),
