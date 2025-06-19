@@ -44,20 +44,20 @@ class TeamsHomeScreen extends StatelessWidget {
     //   ],
     // );
 
-    viewModel.add.execute(Team(number: 123, name: "test", opr: 456));
-    viewModel.add.execute(Team(number: 122, name: "test", opr: 456));
-    viewModel.add.execute(Team(number: 121, name: "test", opr: 456));
-    viewModel.add.execute(Team(number: 120, name: "test", opr: 456));
-    viewModel.add.execute(Team(number: 124, name: "test", opr: 456));
-    viewModel.add.execute(Team(number: 125, name: "test", opr: 456));
-    viewModel.add.execute(Team(number: 126, name: "test", opr: 456));
-    viewModel.add.execute(Team(number: 127, name: "test", opr: 456));
-    viewModel.add.execute(Team(number: 128, name: "test", opr: 456));
-    viewModel.add.execute(Team(number: 129, name: "test", opr: 456));
-    viewModel.add.execute(Team(number: 133, name: "test", opr: 456));
-    viewModel.add.execute(Team(number: 132, name: "test", opr: 456));
-    viewModel.add.execute(Team(number: 131, name: "test", opr: 456));
-    viewModel.add.execute(Team(number: 130, name: "test", opr: 456));
+    // viewModel.add.execute(Team(number: 123, name: "test", opr: 456));
+    // viewModel.add.execute(Team(number: 122, name: "test", opr: 456));
+    // viewModel.add.execute(Team(number: 121, name: "test", opr: 456));
+    // viewModel.add.execute(Team(number: 120, name: "test", opr: 456));
+    // viewModel.add.execute(Team(number: 124, name: "test", opr: 456));
+    // viewModel.add.execute(Team(number: 125, name: "test", opr: 456));
+    // viewModel.add.execute(Team(number: 126, name: "test", opr: 456));
+    // viewModel.add.execute(Team(number: 127, name: "test", opr: 456));
+    // viewModel.add.execute(Team(number: 128, name: "test", opr: 456));
+    // viewModel.add.execute(Team(number: 129, name: "test", opr: 456));
+    // viewModel.add.execute(Team(number: 133, name: "test", opr: 456));
+    // viewModel.add.execute(Team(number: 132, name: "test", opr: 456));
+    // viewModel.add.execute(Team(number: 131, name: "test", opr: 456));
+    // viewModel.add.execute(Team(number: 130, name: "test", opr: 456));
 
     return Scaffold(
       appBar: AppBar(
@@ -144,7 +144,7 @@ class TeamsHomeScreen extends StatelessWidget {
                                       keyboardType: TextInputType.number,
                                       validator: (value) {
                                         if (value == null || int.tryParse(value) == null) {
-                                          return "Enter a valid number.";
+                                          return "Enter a valid team number.";
                                         }
                                         return null;
                                       },
@@ -155,7 +155,7 @@ class TeamsHomeScreen extends StatelessWidget {
                                       decoration: const InputDecoration(labelText: "Team Name"),
                                       validator: (value) {
                                         if (value == null || value.trim().isEmpty) {
-                                          return "Enter a valid name.";
+                                          return "Enter a valid team name.";
                                         }
                                         return null;
                                       },
@@ -166,8 +166,9 @@ class TeamsHomeScreen extends StatelessWidget {
                                       decoration: const InputDecoration(labelText: "OPR"),
                                       keyboardType: TextInputType.numberWithOptions(decimal: true),
                                       validator: (value) {
-                                        if (value == null || double.tryParse(value) == null) {
-                                          return "Enter a valid number.";
+                                        if (value == null) return null;
+                                        if (double.tryParse(value) == null) {
+                                          return "Enter a valid OPR or omit this value.";
                                         }
                                         return null;
                                       },
@@ -181,10 +182,16 @@ class TeamsHomeScreen extends StatelessWidget {
                                               Team(
                                                 number: int.parse(numberController.text),
                                                 name: nameController.text.trim(),
-                                                opr: double.parse(oprController.text),
+                                                opr: oprController.text.isEmpty ? -1.0 : double.parse(oprController.text),
                                               )
                                             );
+                                            // Reset form
                                             _formKey.currentState?.reset();
+                                            numberController.clear();
+                                            nameController.clear();
+                                            oprController.clear();
+
+                                            // Close menu
                                             Navigator.of(context).pop();
                                           }
                                         },
@@ -198,7 +205,7 @@ class TeamsHomeScreen extends StatelessWidget {
 
                             // Second tab - Adding teams from existing event
                             Center(
-                              child: Text("Other page content goes here."),
+                              child: Text("text"),
                             ),
                           ],
                         ),
