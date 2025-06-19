@@ -44,17 +44,17 @@ class TeamsHomeScreen extends StatelessWidget {
         children: [
           Expanded(
             child: ListenableBuilder(
-              listenable: widget.viewModel,
+              listenable: viewModel,
               builder: (context, child) {
                 return ListView.builder(
-                  itemCount: widget.viewModel.todos.length,
+                  itemCount: viewModel.teams.length,
                   itemBuilder: (context, index) {
-                    final todo = widget.viewModel.todos[index];
+                    final team = viewModel.teams[index];
                     return ListTile(
-                      title: Text(todo.task),
+                      title: Text(team.name),
                       trailing: IconButton(
                         icon: const Icon(Icons.delete),
-                        onPressed: () => widget.viewModel.delete.execute(todo.id),
+                        onPressed: () => viewModel.delete.execute(team.number),
                       ),
                     );
                   },

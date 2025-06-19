@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:ftc_tournament_scout/src/features/teams/view/teams_view_model.dart';
 // import 'package:ftc_tournament_scout/src/features/teams/view/playlist_screen.dart';
 import 'package:ftc_tournament_scout/src/shared/classes/classes.dart';
 import 'package:go_router/go_router.dart';
@@ -51,92 +52,94 @@ class NavigationDestination {
   final Widget? child;
 }
 
-final appRouter = GoRouter(
-  routes: [
-    GoRoute(
-      path: '/',
-      pageBuilder: (context, state) => const MaterialPage<void>(
-        key: _pageKey,
-        child: RootLayout(
-          key: _scaffoldKey,
-          currentIndex: 0,
-          child: HomeScreen(),
-        ),
-      ),
-    ),
-    GoRoute(
-      path: '/teams',
-      pageBuilder: (context, state) => const MaterialPage<void>(
-        key: _pageKey,
-        child: RootLayout(
-          key: _scaffoldKey,
-          currentIndex: 1,
-          child: TeamsHomeScreen(),
-        ),
-      ),
-      routes: [
-        GoRoute(
-          path: ':pid',
-          pageBuilder: (context, state) => MaterialPage<void>(
-            key: state.pageKey,
-            child: RootLayout(
-              key: _scaffoldKey,
-              currentIndex: 1,
-              // child: TeamsScreen(
-              //   playlist: playlistsProvider.getPlaylist(
-              //     state.pathParameters['pid']!,
-              //   )!,
-              // ),
-              // child: TeamScreen(
-              //   teamProvider.getTeam(
-              //     state.pathParameters['pid']!,
-              //   )!,
-              // )!,
-              child: Text("test"),
-            ),
-          ),
-        ),
-      ],
-    ),
-    GoRoute(
-      path: '/artists',
-      pageBuilder: (context, state) => const MaterialPage<void>(
-        key: _pageKey,
-        child: RootLayout(
-          key: _scaffoldKey,
-          currentIndex: 2,
-          child: ArtistsScreen(),
-        ),
-      ),
-      routes: [
-        GoRoute(
-          path: ':aid',
-          pageBuilder: (context, state) => MaterialPage<void>(
-            key: state.pageKey,
-            child: RootLayout(
-              key: _scaffoldKey,
-              currentIndex: 2,
-              child: ArtistScreen(
-                artist: artistsProvider.getArtist(
-                  state.pathParameters['aid']!,
-                )!,
-              ),
-            ),
-          ),
-        ),
-      ],
-    ),
-    for (final route in destinations.skip(3))
+GoRouter createRouter(TeamProvider teamProvider) {
+  return GoRouter(
+    routes: [
       GoRoute(
-        path: route.route,
+        path: '/',
+        pageBuilder: (context, state) => const MaterialPage<void>(
+          key: _pageKey,
+          child: RootLayout(
+            key: _scaffoldKey,
+            currentIndex: 0,
+            child: HomeScreen(),
+          ),
+        ),
+      ),
+      GoRoute(
+        path: '/teams',
         pageBuilder: (context, state) => MaterialPage<void>(
           key: _pageKey,
           child: RootLayout(
             key: _scaffoldKey,
-            currentIndex: destinations.indexOf(route),
-            child: const SizedBox(),
+            currentIndex: 1,
+            child: TeamsHomeScreen(viewModel: TeamsViewModel(teamProvider: teamProvider),),
           ),
         ),
+        routes: [
+          GoRoute(
+            path: ':pid',
+            pageBuilder: (context, state) => MaterialPage<void>(
+              key: state.pageKey,
+              child: RootLayout(
+                key: _scaffoldKey,
+                currentIndex: 1,
+                // child: TeamsScreen(
+                //   playlist: playlistsProvider.getPlaylist(
+                //     state.pathParameters['pid']!,
+                //   )!,
+                // ),
+                // child: TeamScreen(
+                //   teamProvider.getTeam(
+                //     state.pathParameters['pid']!,
+                //   )!,
+                // )!,
+                child: Text("test"),
+              ),
+            ),
+          ),
+        ],
       ),
-  ],
-);
+      GoRoute(
+        path: '/artists',
+        pageBuilder: (context, state) => const MaterialPage<void>(
+          key: _pageKey,
+          child: RootLayout(
+            key: _scaffoldKey,
+            currentIndex: 2,
+            child: ArtistsScreen(),
+          ),
+        ),
+        routes: [
+          GoRoute(
+            path: ':aid',
+            pageBuilder: (context, state) => MaterialPage<void>(
+              key: state.pageKey,
+              child: RootLayout(
+                key: _scaffoldKey,
+                currentIndex: 2,
+                child: ArtistScreen(
+                  artist: artistsProvider.getArtist(
+                    state.pathParameters['aid']!,
+                  )!,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+      for (final route in destinations.skip(3))
+        GoRoute(
+          path: route.route,
+          pageBuilder: (context, state) => MaterialPage<void>(
+            key: _pageKey,
+            child: RootLayout(
+              key: _scaffoldKey,
+              currentIndex: destinations.indexOf(route),
+              child: const SizedBox(),
+            ),
+          ),
+        ),
+    ],
+  );
+}

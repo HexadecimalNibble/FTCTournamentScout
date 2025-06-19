@@ -9,7 +9,7 @@ class TeamsViewModel extends ChangeNotifier {
   TeamsViewModel({required TeamProvider teamProvider})
     : _teamProvider = teamProvider {
     load = Command0<void>(_load)..execute();
-    add = Command1<void, String>(_add);
+    add = Command1<void, Team>(_add);
     delete = Command1<void, int>(_delete);
   }
 
@@ -19,7 +19,7 @@ class TeamsViewModel extends ChangeNotifier {
   late Command0<void> load;
 
   /// Add a new Todo item.
-  late Command1<void, String> add;
+  late Command1<void, Team> add;
 
   /// Delete a Todo item by its id.
   late Command1<void, int> delete;
@@ -27,7 +27,7 @@ class TeamsViewModel extends ChangeNotifier {
   // #docregion TodoListViewModel
   List<Team> _teams = [];
 
-  List<Team> get todos => _teams;
+  List<Team> get teams => _teams;
 
   Future<Result<void>> _load() async {
     try {
