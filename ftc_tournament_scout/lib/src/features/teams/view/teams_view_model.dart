@@ -10,21 +10,24 @@ class TeamsViewModel extends ChangeNotifier {
     : _teamProvider = teamProvider {
     load = Command0<void>(_load)..execute();
     add = Command1<void, Team>(_add);
+    update = Command1<void, Team>(_update);
     delete = Command1<void, int>(_delete);
   }
 
   final TeamProvider _teamProvider;
 
-  /// Load Todo items from repository.
+  /// Load Teams from database.
   late Command0<void> load;
 
-  /// Add a new Todo item.
+  /// Add a new Team.
   late Command1<void, Team> add;
 
-  /// Delete a Todo item by its id.
+  /// Updates a Team.
+  late Command1<void, Team> update;
+
+  /// Delete a Team by its team number.
   late Command1<void, int> delete;
 
-  // #docregion TodoListViewModel
   List<Team> _teams = [];
 
   List<Team> get teams => _teams;
@@ -45,9 +48,7 @@ class TeamsViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
-  // #enddocregion TodoListViewModel
 
-  // #docregion Add
   Future<Result<void>> _add(Team team) async {
     try {
       final result = await _teamProvider.addTeam(team);
@@ -64,9 +65,25 @@ class TeamsViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
-  // #enddocregion Add
 
-  // #docregion Delete
+  Future<Result<void>> _update(Team team) async {
+    try {
+      final result = await _teamProvider.updateTeam(team);
+      switch (result) {
+        case Ok<Team>():
+          // Update team in _teams list
+          _teams[_teams.indexWhere((team) => team.number == result.value.number)] = result.value;
+          return Result.ok(null);
+        case Error():
+          return Result.error(result.error);
+      }
+    } on Exception catch (e) {
+      return Result.error(e);
+    } finally {
+      notifyListeners();
+    }
+  }
+
   Future<Result<void>> _delete(int teamNumber) async {
     try {
       final result = await _teamProvider.deleteTeam(teamNumber);
