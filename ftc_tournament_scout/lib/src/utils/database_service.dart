@@ -39,7 +39,7 @@ class DatabaseService {
 
   Future<Result<Team>> insert(Team team) async {
     try {
-      await _database!.insert(_kTableTeams, {_kColumnNumber: team.number, _kColumnName: team.name, _kColumnOPR: team.opr, _kColumnCustomTeamInfo: });
+      await _database!.insert(_kTableTeams, {_kColumnNumber: team.number, _kColumnName: team.name, _kColumnOPR: team.opr});
       return Result.ok(team);
     } on Exception catch (e) {
       return Result.error(e);

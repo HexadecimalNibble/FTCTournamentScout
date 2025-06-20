@@ -1,5 +1,7 @@
 # ftc_tournament_scout
 
+dart run build_runner watch --delete-conflicting-outputs
+
 A new Flutter project.
 
 ## Getting Started
