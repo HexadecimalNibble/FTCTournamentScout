@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 export './artist.dart';
+export './custom_team_info.dart';
 export './event.dart';
 export './image.dart';
 export './match.dart';

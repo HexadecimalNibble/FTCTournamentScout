@@ -34,9 +34,10 @@ class TeamScreen extends StatelessWidget {
             : max(constraints.biggest.height * 0.25, 250);
         // if (constraints.isMobile) {
         // }
+        Team team = viewModel.teams.firstWhere((team) => team.number == teamNumber);
         return Scaffold(
           appBar: AppBar(
-            title: Text(viewModel.teams.firstWhere((team) => team.number == teamNumber).name),
+            title: Text("${team.name} - #${team.number}"),
             toolbarHeight: kToolbarHeight,
           ),
           body: Form(
@@ -44,6 +45,24 @@ class TeamScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                DropdownButtonFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Select an option',
+                    border: OutlineInputBorder(),
+                  ),
+                  isExpanded: true,
+                  items: ['Option 1', 'Option 2', 'Option 3']
+                    .map((option) => DropdownMenuItem(
+                          value: option,
+                          child: Text(option),
+                        ))
+                    .toList(),
+                  onChanged: (value) {
+                    // setState(() {
+                    //   _selectedValue = value;
+                    // });
+                  },
+                ),
                 TextFormField(
                   autofocus: true,
                   // controller: numberController,

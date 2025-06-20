@@ -14,6 +14,7 @@ class DatabaseService {
   static const _kColumnNumber = 'number';
   static const _kColumnName = 'name';
   static const _kColumnOPR = 'opr';
+  static const _kColumnCustomTeamInfo = 'customTeamInfo';
   // #enddocregion Table
 
   Database? _database;
@@ -27,7 +28,7 @@ class DatabaseService {
       options: OpenDatabaseOptions(
         onCreate: (db, version) {
           return db.execute(
-            'CREATE TABLE $_kTableTeams($_kColumnNumber INTEGER PRIMARY KEY, $_kColumnName TEXT, $_kColumnOPR DOUBLE)',
+            'CREATE TABLE $_kTableTeams($_kColumnNumber INTEGER PRIMARY KEY, $_kColumnName TEXT, $_kColumnOPR DOUBLE, $_kColumnCustomTeamInfo TEXT)',
           );
         },
         version: 1,
@@ -36,16 +37,14 @@ class DatabaseService {
   }
   // #enddocregion Open
 
-  // #docregion Insert
   Future<Result<Team>> insert(Team team) async {
     try {
-      await _database!.insert(_kTableTeams, {_kColumnNumber: team.number, _kColumnName: team.name, _kColumnOPR: team.opr});
+      await _database!.insert(_kTableTeams, {_kColumnNumber: team.number, _kColumnName: team.name, _kColumnOPR: team.opr, _kColumnCustomTeamInfo: });
       return Result.ok(team);
     } on Exception catch (e) {
       return Result.error(e);
     }
   }
-  // #enddocregion Insert
 
   // #docregion GetAll
   Future<Result<List<Team>>> getAll() async {

@@ -155,10 +155,7 @@ class TeamsHomeScreen extends StatelessWidget {
                                               )
                                             );
                                             // Reset form
-                                            _formKey.currentState?.reset();
-                                            numberController.clear();
-                                            nameController.clear();
-                                            oprController.clear();
+                                            _formKey.currentState!.reset();
 
                                             // Close menu
                                             Navigator.of(context).pop();
