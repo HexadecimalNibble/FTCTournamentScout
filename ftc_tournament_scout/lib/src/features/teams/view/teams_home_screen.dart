@@ -139,6 +139,7 @@ class TeamsHomeScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     TextFormField(
+                                      autofocus: true,
                                       controller: numberController,
                                       decoration: const InputDecoration(labelText: "Team Number"),
                                       keyboardType: TextInputType.number,
@@ -182,7 +183,7 @@ class TeamsHomeScreen extends StatelessWidget {
                                               Team(
                                                 number: int.parse(numberController.text),
                                                 name: nameController.text.trim(),
-                                                opr: oprController.text.isEmpty ? -1.0 : double.parse(oprController.text),
+                                                opr: oprController.text.isEmpty ? 0.0 : double.parse(oprController.text),
                                               )
                                             );
                                             // Reset form

@@ -53,9 +53,9 @@ class _MyAppState extends State<MyApp> {
                   routeInformationParser: widget.appRouter.routeInformationParser,
                   routeInformationProvider: widget.appRouter.routeInformationProvider,
                   routerDelegate: widget.appRouter.routerDelegate,
-                  builder: (context, child) {
-                    return PlayPauseListener(child: child!);
-                  },
+                  // builder: (context, child) {
+                  //   return PlayPauseListener(child: child!);
+                  // },
                 );
               },
             ),
