@@ -35,48 +35,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return LayoutBuilder(
       builder: (context, constraints) {
         // if (constraints.isMobile) {
-        //   return DefaultTabController(
-        //     length: 4,
-        //     child: Scaffold(
-        //       appBar: AppBar(
-        //         centerTitle: false,
-        //         title: const Text('FTC Tournament Scout'),
-        //         actions: const [BrightnessToggle()],
-        //         bottom: const TabBar(
-        //           isScrollable: true,
-        //           tabs: [
-        //             Tab(text: 'Home'),
-        //             Tab(text: 'Recently Played'),
-        //             Tab(text: 'New Releases'),
-        //             Tab(text: 'Top Songs'),
-        //           ],
-        //         ),
-        //       ),
-        //       body: LayoutBuilder(
-        //         builder: (context, constraints) => TabBarView(
-        //           children: [
-        //             SingleChildScrollView(
-        //               child: Column(
-        //                 children: [
-        //                   const HomeHighlight(),
-        //                   HomeArtists(
-        //                     artists: artists,
-        //                     constraints: constraints,
-        //                   ),
-        //                 ],
-        //               ),
-        //             ),
-        //             HomeRecent(playlists: playlists, axis: Axis.vertical),
-        //             PlaylistSongs(playlist: topSongs, constraints: constraints),
-        //             PlaylistSongs(
-        //               playlist: newReleases,
-        //               constraints: constraints,
-        //             ),
-        //           ],
-        //         ),
-        //       ),
-        //     ),
-        //   );
         // }
         return Scaffold(
           body: SingleChildScrollView(

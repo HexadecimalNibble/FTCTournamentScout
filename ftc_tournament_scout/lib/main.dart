@@ -14,6 +14,7 @@ import 'src/shared/app.dart';
 import 'src/utils/database_service.dart';
 import 'src/shared/providers/team.dart';
 import 'src/shared/router.dart';
+import 'src/features/teams/view/teams_view_model.dart';
 
 Future setDesktopWindow() async {
   await DesktopWindow.setMinWindowSize(const Size(400, 400));
@@ -41,5 +42,5 @@ void main() {
     databaseService = DatabaseService(databaseFactory: databaseFactory);
   }
 
-  runApp(MyApp(appRouter: createRouter(TeamProvider(database: databaseService))));
+  runApp(MyApp(appRouter: createRouter(TeamsViewModel(teamProvider: TeamProvider(database: databaseService)))));
 }

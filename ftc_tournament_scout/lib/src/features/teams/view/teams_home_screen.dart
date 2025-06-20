@@ -27,38 +27,6 @@ class TeamsHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final Event testEvent = Event(
-    //   date: "5/5/25",
-    //   name: "test event",
-    //   teams: [
-    //     Team(number: 1, name: "testname", opr: 123.0),
-    //     Team(number: 13242, name: "team2", opr: 163.2),
-    //   ],
-    //   matches: [
-    //     Match(
-    //       red1: Team(number: 1, name: "testname", opr: 123.0),
-    //       red2: Team(number: 1, name: "testname", opr: 123.0),
-    //       blue1: Team(number: 1, name: "testname", opr: 123.0),
-    //       blue2: Team(number: 1, name: "testname", opr: 123.0),
-    //     ),
-    //   ],
-    // );
-
-    // viewModel.add.execute(Team(number: 123, name: "test", opr: 456));
-    // viewModel.add.execute(Team(number: 122, name: "test", opr: 456));
-    // viewModel.add.execute(Team(number: 121, name: "test", opr: 456));
-    // viewModel.add.execute(Team(number: 120, name: "test", opr: 456));
-    // viewModel.add.execute(Team(number: 124, name: "test", opr: 456));
-    // viewModel.add.execute(Team(number: 125, name: "test", opr: 456));
-    // viewModel.add.execute(Team(number: 126, name: "test", opr: 456));
-    // viewModel.add.execute(Team(number: 127, name: "test", opr: 456));
-    // viewModel.add.execute(Team(number: 128, name: "test", opr: 456));
-    // viewModel.add.execute(Team(number: 129, name: "test", opr: 456));
-    // viewModel.add.execute(Team(number: 133, name: "test", opr: 456));
-    // viewModel.add.execute(Team(number: 132, name: "test", opr: 456));
-    // viewModel.add.execute(Team(number: 131, name: "test", opr: 456));
-    // viewModel.add.execute(Team(number: 130, name: "test", opr: 456));
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Teams'),

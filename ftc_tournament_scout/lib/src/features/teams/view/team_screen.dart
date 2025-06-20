@@ -5,20 +5,24 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:ftc_tournament_scout/src/utils/adaptive_column.dart';
+import 'package:ftc_tournament_scout/src/utils/adaptive_components.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../shared/classes/classes.dart';
 import '../../../shared/extensions.dart';
 import '../../../shared/views/adaptive_image_card.dart';
 import '../../../shared/views/views.dart';
-// import 'playlist_songs.dart';
 import 'event_teams.dart';
+import './teams_view_model.dart';
 
 class TeamScreen extends StatelessWidget {
-  const TeamScreen({required this.team, super.key});
+  TeamScreen({required this.teamNumber, required this.viewModel, super.key});
 
-  // final Playlist playlist;
-  final Team team;
+  final int teamNumber;
+  final TeamsViewModel viewModel;
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -29,115 +33,40 @@ class TeamScreen extends StatelessWidget {
             ? max(constraints.biggest.height * 0.5, 450)
             : max(constraints.biggest.height * 0.25, 250);
         // if (constraints.isMobile) {
-        //   return Scaffold(
-        //     appBar: AppBar(
-        //       leading: BackButton(
-        //         onPressed: () => GoRouter.of(context).go('/playlists'),
-        //       ),
-        //       title: Text(playlist.title),
-        //       actions: [
-        //         IconButton(
-        //           icon: const Icon(Icons.play_circle_fill),
-        //           onPressed: () {},
-        //         ),
-        //         IconButton(onPressed: () {}, icon: const Icon(Icons.shuffle)),
-        //       ],
-        //     ),
-        //     body: ArticleContent(
-        //       child: PlaylistSongs(
-        //         playlist: playlist,
-        //         constraints: constraints,
-        //       ),
-        //     ),
-        //   );
         // }
         return Scaffold(
-          body: CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                leading: BackButton(
-                  onPressed: () => GoRouter.of(context).go('/teams'),
+          appBar: AppBar(
+            title: Text(viewModel.teams.firstWhere((team) => team.number == teamNumber).name),
+            toolbarHeight: kToolbarHeight,
+          ),
+          body: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextFormField(
+                  autofocus: true,
+                  // controller: numberController,
+                  decoration: const InputDecoration(labelText: "Team Number"),
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null || int.tryParse(value) == null) {
+                      return "Enter a valid team number.";
+                    }
+                    return null;
+                  },
                 ),
-                expandedHeight: headerHeight,
-                pinned: false,
-                // flexibleSpace: ArticleContent(
-                //   child: EventTeams(
-                //     event: event
-                //   ),
-                // )
-
-                // flexibleSpace: FlexibleSpaceBar(
-                  // background: AdaptiveImageCard(
-                  //   axis: constraints.isMobile
-                  //       ? Axis.vertical
-                  //       : Axis.horizontal,
-                  //   constraints: constraints
-                  //       .copyWith(maxHeight: headerHeight)
-                  //       .normalize(),
-                  //   image: playlist.cover.image,
-                  //   child: Column(
-                  //     mainAxisAlignment: MainAxisAlignment.end,
-                  //     crossAxisAlignment: CrossAxisAlignment.start,
-                  //     mainAxisSize: MainAxisSize.min,
-                  //     children: [
-                  //       Text(
-                  //         'TEAM',
-                  //         style: context.titleSmall!.copyWith(
-                  //           color: colors.onSurface,
-                  //         ),
-                  //       ),
-                  //       Text(
-                  //         playlist.title,
-                  //         style: context.displaySmall!.copyWith(
-                  //           color: colors.onSurface,
-                  //         ),
-                  //       ),
-                  //       Text(
-                  //         playlist.description,
-                  //         style: context.bodyLarge!.copyWith(
-                  //           color: colors.onSurface.withAlpha(204),
-                  //         ),
-                  //       ),
-                  //       const SizedBox(height: 8),
-                  //       Row(
-                  //         children: [
-                  //           IconButton(
-                  //             icon: Icon(
-                  //               Icons.play_circle_fill,
-                  //               color: colors.tertiary,
-                  //             ),
-                  //             onPressed: () {},
-                  //           ),
-                  //           TextButton.icon(
-                  //             onPressed: () {},
-                  //             icon: Icon(Icons.shuffle, color: colors.tertiary),
-                  //             label: Text(
-                  //               'Shuffle',
-                  //               style: context.bodySmall!.copyWith(
-                  //                 color: colors.tertiary,
-                  //               ),
-                  //             ),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                // ),
-              ),
-              SliverToBoxAdapter(
-                child: ArticleContent(
-                  // child: PlaylistSongs(
-                  //   playlist: playlist,
-                  //   constraints: constraints,
-                  // ),
-                  child: Text(team.name)
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
     );
   }
 }
+
+// BackButton(
+//   onPressed: () => GoRouter.of(context).go('/teams'),
+// ),
+
+// Text(viewModel.teams.firstWhere((team) => team.number == teamNumber).name)

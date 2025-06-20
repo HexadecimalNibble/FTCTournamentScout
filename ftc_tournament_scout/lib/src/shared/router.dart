@@ -21,8 +21,6 @@ const _pageKey = ValueKey('_pageKey');
 const _scaffoldKey = ValueKey('_scaffoldKey');
 
 final artistsProvider = ArtistsProvider();
-// final playlistsProvider = PlaylistsProvider();
-// final teamProvider = TeamProvider();
 
 const List<NavigationDestination> destinations = [
   NavigationDestination(label: 'Home', icon: Icon(Icons.home), route: '/'),
@@ -52,7 +50,7 @@ class NavigationDestination {
   final Widget? child;
 }
 
-GoRouter createRouter(TeamProvider teamProvider) {
+GoRouter createRouter(TeamsViewModel teamsViewModel) {
   return GoRouter(
     routes: [
       GoRoute(
@@ -73,28 +71,21 @@ GoRouter createRouter(TeamProvider teamProvider) {
           child: RootLayout(
             key: _scaffoldKey,
             currentIndex: 1,
-            child: TeamsHomeScreen(viewModel: TeamsViewModel(teamProvider: teamProvider),),
+            child: TeamsHomeScreen(viewModel: teamsViewModel),
           ),
         ),
         routes: [
           GoRoute(
-            path: ':pid',
+            path: ':team',
             pageBuilder: (context, state) => MaterialPage<void>(
               key: state.pageKey,
               child: RootLayout(
                 key: _scaffoldKey,
                 currentIndex: 1,
-                // child: TeamsScreen(
-                //   playlist: playlistsProvider.getPlaylist(
-                //     state.pathParameters['pid']!,
-                //   )!,
-                // ),
-                // child: TeamScreen(
-                //   teamProvider.getTeam(
-                //     state.pathParameters['pid']!,
-                //   )!,
-                // )!,
-                child: Text("test"),
+                child: TeamScreen(
+                  teamNumber: int.parse(state.pathParameters['team']!),
+                  viewModel: teamsViewModel,
+                ),
               ),
             ),
           ),
