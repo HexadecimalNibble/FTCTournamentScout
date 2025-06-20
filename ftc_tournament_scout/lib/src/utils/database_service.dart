@@ -1,3 +1,4 @@
+import 'package:ftc_tournament_scout/src/shared/classes/classes.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -39,7 +40,23 @@ class DatabaseService {
 
   Future<Result<Team>> insert(Team team) async {
     try {
-      await _database!.insert(_kTableTeams, {_kColumnNumber: team.number, _kColumnName: team.name, _kColumnOPR: team.opr});
+      await _database!.insert(_kTableTeams, {_kColumnNumber: team.number, _kColumnName: team.name, _kColumnOPR: team.opr, _kColumnCustomTeamInfo: team.customTeamInfo.toJson()});
+      return Result.ok(team);
+    } on Exception catch (e) {
+      return Result.error(e);
+    }
+  }
+
+  /// Function to update team already in database. Team is selected based on the team number in the supplied team.
+  /// The properties of the matching team in the database are updated based on the supplied team
+  Future<Result<Team>> update(Team team) async {
+    try {
+      await _database!.update(
+        _kTableTeams,
+        {_kColumnNumber: team.number, _kColumnName: team.name, _kColumnOPR: team.opr, _kColumnCustomTeamInfo: team.customTeamInfo.toJson()},
+        where: '$_kColumnNumber = ?',
+        whereArgs: [team.number],
+      );
       return Result.ok(team);
     } on Exception catch (e) {
       return Result.error(e);
@@ -58,7 +75,8 @@ class DatabaseService {
             (element) => Team(
               number: element[_kColumnNumber] as int,
               name: element[_kColumnName] as String,
-              opr: element[_kColumnOPR] as double
+              opr: element[_kColumnOPR] as double,
+              customTeamInfo: CustomTeamInfo.fromJson(element[_kColumnCustomTeamInfo] as Map<String, dynamic>),
             ),
           )
           .toList();

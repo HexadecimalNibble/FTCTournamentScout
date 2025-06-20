@@ -6,7 +6,8 @@ import './classes.dart';
 /// the star denotes the source file name.
 part 'custom_team_info.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+// @JsonSerializable(explicitToJson: true)
+@JsonSerializable()
 class CustomTeamInfo {
   CustomTeamInfo({
     this.notes,
@@ -16,7 +17,7 @@ class CustomTeamInfo {
 
   /// A necessary factory constructor for creating a new CustomTeamInfo instance
   /// from a map. Pass the map to the generated `_$CustomTeamInfoFromJson()` constructor.
-  /// The constructor is named after the source class, in this case, User.
+  /// The constructor is named after the source class, in this case, CustomTeamInfo.
   factory CustomTeamInfo.fromJson(Map<String, dynamic> json) => _$CustomTeamInfoFromJson(json);
 
   /// `toJson` is the convention for a class to declare support for serialization
