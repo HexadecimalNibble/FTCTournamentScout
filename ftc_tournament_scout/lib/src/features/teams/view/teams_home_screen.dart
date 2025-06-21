@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class TeamsHomeScreen extends StatelessWidget {
   final numberController = TextEditingController();
   final nameController = TextEditingController();
   final oprController = TextEditingController();
+  final customTeamInfo = TextEditingController();
 
 
   @override
@@ -142,6 +144,18 @@ class TeamsHomeScreen extends StatelessWidget {
                                         return null;
                                       },
                                     ),
+                                    const SizedBox(height: 10),
+                                    TextFormField(
+                                      controller: customTeamInfo,
+                                      decoration: const InputDecoration(labelText: "Custom Team Info"),
+                                      keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                      validator: (value) {
+                                        if (value == null || value.trim().isEmpty) {
+                                          return "Enter valid custom team info.";
+                                        }
+                                        return null;
+                                      },
+                                    ),
                                     const SizedBox(height: 20),
                                     Center(
                                       child: ElevatedButton(
@@ -152,6 +166,7 @@ class TeamsHomeScreen extends StatelessWidget {
                                                 number: int.parse(numberController.text),
                                                 name: nameController.text.trim(),
                                                 opr: oprController.text.isEmpty ? 0.0 : double.parse(oprController.text),
+                                                customTeamInfo: customTeamInfo.text.isEmpty ? CustomTeamInfo() : CustomTeamInfo.fromJson(jsonDecode(customTeamInfo.text))
                                               )
                                             );
                                             // Reset form

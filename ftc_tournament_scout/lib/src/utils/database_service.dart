@@ -76,7 +76,7 @@ class DatabaseService {
               number: element[_kColumnNumber] as int,
               name: element[_kColumnName] as String,
               opr: element[_kColumnOPR] as double,
-              customTeamInfo: CustomTeamInfo.fromJson(element[_kColumnCustomTeamInfo] as Map<String, dynamic>),
+              customTeamInfo: element[_kColumnCustomTeamInfo] == null ? CustomTeamInfo() : CustomTeamInfo.fromJson(element[_kColumnCustomTeamInfo] as Map<String, dynamic>),
             ),
           )
           .toList();

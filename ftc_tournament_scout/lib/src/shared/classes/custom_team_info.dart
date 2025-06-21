@@ -10,10 +10,10 @@ part 'custom_team_info.g.dart';
 @JsonSerializable()
 class CustomTeamInfo {
   CustomTeamInfo({
-    this.notes,
+    this.notes = "",
   });
 
-  String? notes;
+  String notes;
 
   /// A necessary factory constructor for creating a new CustomTeamInfo instance
   /// from a map. Pass the map to the generated `_$CustomTeamInfoFromJson()` constructor.

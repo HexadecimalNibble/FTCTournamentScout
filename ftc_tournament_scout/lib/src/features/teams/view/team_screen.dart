@@ -75,6 +75,7 @@ class TeamScreen extends StatelessWidget {
                     return null;
                   },
                 ),
+                Text(team.customTeamInfo.toJson().toString())
               ],
             ),
           ),

@@ -24,14 +24,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    // final PlaylistsProvider playlistProvider = PlaylistsProvider();
-    // final List<Playlist> playlists = playlistProvider.playlists;
-    // final Playlist topSongs = playlistProvider.topSongs;
-    // final Playlist newReleases = playlistProvider.newReleases;
-    // final ArtistsProvider artistsProvider = ArtistsProvider();
-    // final List<Artist> artists = artistsProvider.artists;
-    // final Event testEvent = Event(date: "5/5/25", name: "test event", teams: <Team>[Team(number: 1, name: "testname", opr: 123.0), Team(number: 13242, name: "team2", opr: 163.2)], matches: <Match>[Match(red1: Team(number: 1, name: "testname", opr: 123.0), red2: Team(number: 1, name: "testname", opr: 123.0), blue1: Team(number: 1, name: "testname", opr: 123.0), blue2: Team(number: 1, name: "testname", opr: 123.0))]);
-
     return LayoutBuilder(
       builder: (context, constraints) {
         // if (constraints.isMobile) {
