@@ -114,8 +114,8 @@ class TeamsHomeScreen extends StatelessWidget {
                                       decoration: const InputDecoration(labelText: "Team Number"),
                                       keyboardType: TextInputType.number,
                                       validator: (value) {
-                                        if (value == null || int.tryParse(value) == null) {
-                                          return "Enter a valid team number.";
+                                        if (value == null || int.tryParse(value) == null || viewModel.teams.any((team) => team.number == int.tryParse(value))) {
+                                          return "Enter a valid team number that hasn't already been added.";
                                         }
                                         return null;
                                       },
@@ -148,9 +148,9 @@ class TeamsHomeScreen extends StatelessWidget {
                                     TextFormField(
                                       controller: customTeamInfo,
                                       decoration: const InputDecoration(labelText: "Custom Team Info"),
-                                      keyboardType: TextInputType.numberWithOptions(decimal: true),
                                       validator: (value) {
-                                        if (value == null || value.trim().isEmpty) {
+                                        if (value == null || value.trim().isEmpty) return null;
+                                        if (value.trim().isEmpty) {
                                           return "Enter valid custom team info.";
                                         }
                                         return null;
@@ -160,6 +160,7 @@ class TeamsHomeScreen extends StatelessWidget {
                                     Center(
                                       child: ElevatedButton(
                                         onPressed: () {
+                                          // print(CustomTeamInfo.fromJson(jsonDecode(customTeamInfo.text)).notes);
                                           if (_formKey.currentState!.validate()) {
                                             viewModel.add.execute(
                                               Team(

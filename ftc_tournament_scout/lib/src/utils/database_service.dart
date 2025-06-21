@@ -24,6 +24,9 @@ class DatabaseService {
 
   // #docregion Open
   Future<void> open() async {
+    final path = join(await databaseFactory.getDatabasesPath(), 'app_database.db');
+    print('Database path: $path');
+
     _database = await databaseFactory.openDatabase(
       join(await databaseFactory.getDatabasesPath(), 'app_database.db'),
       options: OpenDatabaseOptions(
@@ -40,7 +43,7 @@ class DatabaseService {
 
   Future<Result<Team>> insert(Team team) async {
     try {
-      await _database!.insert(_kTableTeams, {_kColumnNumber: team.number, _kColumnName: team.name, _kColumnOPR: team.opr, _kColumnCustomTeamInfo: team.customTeamInfo.toJson()});
+      await _database!.insert(_kTableTeams, {_kColumnNumber: team.number, _kColumnName: team.name, _kColumnOPR: team.opr, _kColumnCustomTeamInfo: team.customTeamInfo.toJson().toString()});
       return Result.ok(team);
     } on Exception catch (e) {
       return Result.error(e);

@@ -57,6 +57,7 @@ class TeamsViewModel extends ChangeNotifier {
           _teams.add(result.value);
           return Result.ok(null);
         case Error():
+          print("ERROR: ${result.error}");
           return Result.error(result.error);
       }
     } on Exception catch (e) {
