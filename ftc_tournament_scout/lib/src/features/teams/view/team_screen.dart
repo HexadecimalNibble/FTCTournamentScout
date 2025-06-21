@@ -39,6 +39,19 @@ class TeamScreen extends StatelessWidget {
           appBar: AppBar(
             title: Text("${team.name} - #${team.number}"),
             toolbarHeight: kToolbarHeight * 2,
+            actions: [
+              IconButton(
+                icon: Icon(Icons.save),
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    // _formKey.currentState!.save();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Data saved for Team #${team.number}")),
+                    );
+                  }
+                },
+              ),
+            ],
           ),
           body: Form(
             key: _formKey,
@@ -53,7 +66,6 @@ class TeamScreen extends StatelessWidget {
                   autofocus: true,
                   // controller: numberController,
                   decoration: const InputDecoration(labelText: "Notes"),
-                  keyboardType: TextInputType.number,
                   // validator: (value) {
                   //   if (value == null || value.trim().isEmpty) return null;
                   //   if (value.trim().isEmpty) {
