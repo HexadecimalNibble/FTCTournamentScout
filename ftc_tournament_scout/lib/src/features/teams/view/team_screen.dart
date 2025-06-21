@@ -66,6 +66,9 @@ class TeamScreen extends StatelessWidget {
                   autofocus: true,
                   // controller: numberController,
                   decoration: const InputDecoration(labelText: "Notes"),
+                  minLines: 1,
+                  maxLines: 5,
+                  keyboardType: TextInputType.text,
                   // validator: (value) {
                   //   if (value == null || value.trim().isEmpty) return null;
                   //   if (value.trim().isEmpty) {
