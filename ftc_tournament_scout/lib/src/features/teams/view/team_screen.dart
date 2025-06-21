@@ -38,13 +38,94 @@ class TeamScreen extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: Text("${team.name} - #${team.number}"),
-            toolbarHeight: kToolbarHeight,
+            toolbarHeight: kToolbarHeight * 2,
           ),
           body: Form(
             key: _formKey,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(
+                  "General",
+                  style: context.titleLarge,
+                ),
+                const SizedBox(height: 10),
+                TextFormField(
+                  autofocus: true,
+                  // controller: numberController,
+                  decoration: const InputDecoration(labelText: "Notes"),
+                  keyboardType: TextInputType.number,
+                  // validator: (value) {
+                  //   if (value == null || value.trim().isEmpty) return null;
+                  //   if (value.trim().isEmpty) {
+                  //     return "Enter valid text or leave this field blank.";
+                  //   }
+                  //   return null;
+                  // },
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  "Auto",
+                  style: context.titleLarge,
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    // Left Side
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Text(
+                            "Left",
+                            style: context.titleMedium,
+                          ),
+                          const SizedBox(height: 10),
+                          DropdownButtonFormField(
+                            decoration: InputDecoration(
+                              labelText: 'Select an option',
+                              border: OutlineInputBorder(),
+                            ),
+                            isExpanded: true,
+                            items: ['Option 1', 'Option 2', 'Option 3']
+                              .map((option) => DropdownMenuItem(
+                                    value: option,
+                                    child: Text(option),
+                                  ))
+                              .toList(),
+                            onChanged: (value) {
+                              // setState(() {
+                              //   _selectedValue = value;
+                              // });
+                            },
+                          ),
+                        ]
+                      )
+                    ),
+                    // Right Side
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Text(
+                            "Right",
+                            style: context.titleMedium,
+                          ),
+                          const SizedBox(height: 10),
+                        ]
+                      )
+                    )
+                  ],
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  "TeleOp",
+                  style: context.titleLarge,
+                ),
+                const SizedBox(height: 10),
+                const SizedBox(height: 5),
+                Text(
+                  "End Game",
+                  style: context.titleLarge,
+                ),
+                const SizedBox(height: 10),
                 DropdownButtonFormField(
                   decoration: InputDecoration(
                     labelText: 'Select an option',
@@ -61,18 +142,6 @@ class TeamScreen extends StatelessWidget {
                     // setState(() {
                     //   _selectedValue = value;
                     // });
-                  },
-                ),
-                TextFormField(
-                  autofocus: true,
-                  // controller: numberController,
-                  decoration: const InputDecoration(labelText: "Team Number"),
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || int.tryParse(value) == null) {
-                      return "Enter a valid team number.";
-                    }
-                    return null;
                   },
                 ),
                 Text(team.customTeamInfo.toJson().toString())

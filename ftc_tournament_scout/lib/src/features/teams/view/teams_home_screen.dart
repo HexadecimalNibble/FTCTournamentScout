@@ -149,18 +149,17 @@ class TeamsHomeScreen extends StatelessWidget {
                                       controller: customTeamInfo,
                                       decoration: const InputDecoration(labelText: "Custom Team Info"),
                                       validator: (value) {
-                                        if (value == null || value.trim().isEmpty) return null;
-                                        if (value.trim().isEmpty) {
-                                          return "Enter valid custom team info.";
-                                        }
-                                        return null;
+                                        // if (value == null || value.trim().isEmpty) return null;
+                                        // if (value.trim().isEmpty) {
+                                        //   return "Enter valid custom team info.";
+                                        // }
+                                        // return null;
                                       },
                                     ),
                                     const SizedBox(height: 20),
                                     Center(
                                       child: ElevatedButton(
                                         onPressed: () {
-                                          // print(CustomTeamInfo.fromJson(jsonDecode(customTeamInfo.text)).notes);
                                           if (_formKey.currentState!.validate()) {
                                             viewModel.add.execute(
                                               Team(
