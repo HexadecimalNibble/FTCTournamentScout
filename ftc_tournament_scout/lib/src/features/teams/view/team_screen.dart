@@ -39,19 +39,6 @@ class TeamScreen extends StatelessWidget {
           appBar: AppBar(
             title: Text("${team.name} - #${team.number}"),
             toolbarHeight: kToolbarHeight * 2,
-            actions: [
-              IconButton(
-                icon: Icon(Icons.save),
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    // _formKey.currentState!.save();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("Data saved for Team #${team.number}")),
-                    );
-                  }
-                },
-              ),
-            ],
           ),
           body: Form(
             key: _formKey,
