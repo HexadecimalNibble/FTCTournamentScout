@@ -68,7 +68,10 @@ class _TeamScreenState extends State<TeamScreen> {
     if (_formKey.currentState!.validate()) {
       widget.viewModel.update.execute(team);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Team data saved.')),
+        const SnackBar(
+          content: Text('Team data saved.'),
+          showCloseIcon: true,
+        ),
       );
     }
   }
@@ -101,7 +104,9 @@ class _TeamScreenState extends State<TeamScreen> {
               minLines: 1,
               maxLines: 5,
               keyboardType: TextInputType.text,
-              onChanged: (value) => team.customTeamInfo.notes = value,
+              onChanged: (value) => setState(() {
+                team.customTeamInfo.notes = value;
+              }),
             ),
             const SizedBox(height: 20),
             Text("Auto", style: context.titleLarge),
