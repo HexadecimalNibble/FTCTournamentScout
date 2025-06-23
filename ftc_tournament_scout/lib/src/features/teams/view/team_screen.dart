@@ -33,18 +33,33 @@ class _TeamScreenState extends State<TeamScreen> {
   late TextEditingController notesController;
   late TextEditingController leftAutoController;
 
+  final newLeftAutoItemController = TextEditingController();
+  bool isLeftAutoInputValid = false;
+
   @override
   void initState() {
     super.initState();
     team = widget.viewModel.teams.firstWhere((t) => t.number == widget.teamNumber);
     notesController = TextEditingController(text: team.customTeamInfo.notes);
     leftAutoController = TextEditingController(text: team.customTeamInfo.leftAuto);
+
+    newLeftAutoItemController.addListener(() {
+      final text = newLeftAutoItemController.text.trim();
+      final regex = RegExp(r"^[0-9]+ *[\+, ] *[0-9]+$");
+      final valid = regex.hasMatch(text);
+      if (valid != isLeftAutoInputValid) {
+        setState(() {
+          isLeftAutoInputValid = valid;
+        });
+      }
+    });
   }
 
   @override
   void dispose() {
     notesController.dispose();
     leftAutoController.dispose();
+    newLeftAutoItemController.dispose();
     super.dispose();
   }
 
@@ -78,6 +93,19 @@ class _TeamScreenState extends State<TeamScreen> {
       );
     }
   }
+
+  List<String> get leftAutoPrograms {
+  return team.customTeamInfo.leftAuto
+      .split(',')
+      .map((e) => e.trim())
+      .where((e) => e.isNotEmpty)
+      .toList();
+}
+
+void updateLeftAutoPrograms(List<String> items) {
+  team.customTeamInfo.leftAuto = items.join(', ');
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -118,29 +146,69 @@ class _TeamScreenState extends State<TeamScreen> {
               children: [
                 // Left Side
                 Expanded(
-                  child: TextFormField(
-                    controller: leftAutoController,
-                    decoration: const InputDecoration(labelText: "Auto Program (Spec. + Samp.)"),
-                    maxLines: 1,
-                    keyboardType: TextInputType.numberWithOptions(),
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (value) {
-                      // Regex to match valid auto program inputs
-                      if (value == null) return null;
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 4,
+                        children: [
+                          for (final entry in leftAutoPrograms)
+                            Chip(
+                              label: Text(entry),
+                              deleteIcon: const Icon(Icons.close),
+                              onDeleted: () {
+                                final updated = [...leftAutoPrograms]..remove(entry);
+                                setState(() {
+                                  updateLeftAutoPrograms(updated);
+                                });
+                              },
+                            ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              controller: newLeftAutoItemController,
+                              decoration: const InputDecoration(
+                                labelText: "Add Auto (Spec. + Samp.)",
+                                border: OutlineInputBorder(),
+                              ),
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                              validator: (value) {
+                                if (value == null || value == "") {
+                                  return null;
+                                }
 
-                      if (!RegExp(r"^[0-9]+ *[\+, ] *[0-9]+$").hasMatch(value)) {
-                        return "Enter a valid auto program in the form: \"Specimens+Samples\" or \"Specimens + Samples\" or \"Specimens Samples\".";
-                      }
-                      return null;
-                    },
-                    onChanged: (value) => setState(() {
-                      if (value.isEmpty || RegExp(r"^[0-9]+ *[\+, ] *[0-9]+$").hasMatch(value)) {
-                        final matches = RegExp(r"[0-9]+").allMatches(value).map((m) => m.group(0)!);
-                        team.customTeamInfo.leftAuto = "${team.customTeamInfo.leftAuto}, ${matches.join("+")}";
-                        setState(() {}); // Trigger UI update
-                      }
-                    }),
+                                if (!RegExp(r"^[0-9]+ *[\+, ] *[0-9]+$").hasMatch(value)) {
+                                  return "Enter as: Specimens+Samples (e.g. 2 + 1)";
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          ElevatedButton.icon(
+                            icon: const Icon(Icons.add),
+                            label: const Text("Add"),
+                            onPressed: isLeftAutoInputValid
+                                ? () {
+                                    final value = RegExp(r"[0-9]+").allMatches(newLeftAutoItemController.text).map((m) => m.group(0)!).join("+");
+                                    final updated = [...leftAutoPrograms, value];
+                                    setState(() {
+                                      updateLeftAutoPrograms(updated);
+                                      newLeftAutoItemController.clear();
+                                    });
+                                  }
+                                : null, // disables the button
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
+
                 ),
                 const SizedBox(width: 10),
                 // Right Side
