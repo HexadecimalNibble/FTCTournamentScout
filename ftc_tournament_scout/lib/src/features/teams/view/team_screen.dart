@@ -113,16 +113,28 @@ class _TeamScreenState extends State<TeamScreen> {
             const SizedBox(height: 10),
             Row(
               children: [
+                // Left Side
                 Expanded(
-                  child: buildDropdown(
-                    label: 'Left Option',
-                    options: ['Option 1', 'Option 2', 'Option 3'],
-                    onChanged: (value) {
-                      // handle left option
+                  child: TextFormField(
+                    // controller: ,
+                    decoration: const InputDecoration(labelText: "Auto Program (Spec. + Samp.)"),
+                    maxLines: 1,
+                    keyboardType: TextInputType.numberWithOptions(),
+                    validator: (value) {
+                      // Regex to match valid auto program inputs
+                      var validProgramRe = RegExp(r"[0-9] *[\+ ] *[0-9]$");
+                      if (value == null || !validProgramRe.hasMatch(value)) {
+                        return "Enter a valid auto program in the form: \"Specimens+Samples\" or \"Specimens + Samples\" or \"Specimens Samples\".";
+                      }
+                      return null;
                     },
+                    onChanged: (value) => setState(() {
+                      team.customTeamInfo.leftAuto = value;
+                    }),
                   ),
                 ),
                 const SizedBox(width: 10),
+                // Right Side
                 Expanded(
                   child: buildDropdown(
                     label: 'Right Option',

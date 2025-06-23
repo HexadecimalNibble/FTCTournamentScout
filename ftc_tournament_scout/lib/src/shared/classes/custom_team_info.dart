@@ -11,9 +11,11 @@ part 'custom_team_info.g.dart';
 class CustomTeamInfo {
   CustomTeamInfo({
     this.notes = "",
+    this.leftAuto = "",
   });
 
   String notes;
+  String leftAuto;
 
   /// A necessary factory constructor for creating a new CustomTeamInfo instance
   /// from a map. Pass the map to the generated `_$CustomTeamInfoFromJson()` constructor.
