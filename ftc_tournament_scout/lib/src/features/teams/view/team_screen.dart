@@ -31,17 +31,20 @@ class _TeamScreenState extends State<TeamScreen> {
   late Team team;
   final _formKey = GlobalKey<FormState>();
   late TextEditingController notesController;
+  late TextEditingController leftAutoController;
 
   @override
   void initState() {
     super.initState();
     team = widget.viewModel.teams.firstWhere((t) => t.number == widget.teamNumber);
     notesController = TextEditingController(text: team.customTeamInfo.notes);
+    leftAutoController = TextEditingController(text: team.customTeamInfo.leftAuto);
   }
 
   @override
   void dispose() {
     notesController.dispose();
+    leftAutoController.dispose();
     super.dispose();
   }
 
@@ -116,20 +119,26 @@ class _TeamScreenState extends State<TeamScreen> {
                 // Left Side
                 Expanded(
                   child: TextFormField(
-                    // controller: ,
+                    controller: leftAutoController,
                     decoration: const InputDecoration(labelText: "Auto Program (Spec. + Samp.)"),
                     maxLines: 1,
                     keyboardType: TextInputType.numberWithOptions(),
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (value) {
                       // Regex to match valid auto program inputs
-                      var validProgramRe = RegExp(r"[0-9] *[\+ ] *[0-9]$");
-                      if (value == null || !validProgramRe.hasMatch(value)) {
+                      if (value == null) return null;
+
+                      if (!RegExp(r"^[0-9]+ *[\+, ] *[0-9]+$").hasMatch(value)) {
                         return "Enter a valid auto program in the form: \"Specimens+Samples\" or \"Specimens + Samples\" or \"Specimens Samples\".";
                       }
                       return null;
                     },
                     onChanged: (value) => setState(() {
-                      team.customTeamInfo.leftAuto = value;
+                      if (value.isEmpty || RegExp(r"^[0-9]+ *[\+, ] *[0-9]+$").hasMatch(value)) {
+                        final matches = RegExp(r"[0-9]+").allMatches(value).map((m) => m.group(0)!);
+                        team.customTeamInfo.leftAuto = matches.join("+");
+                        setState(() {}); // Trigger UI update
+                      }
                     }),
                   ),
                 ),
