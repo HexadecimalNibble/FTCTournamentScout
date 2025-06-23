@@ -24,15 +24,14 @@ class DatabaseService {
 
   // #docregion Open
   Future<void> open() async {
-    final path = join(await databaseFactory.getDatabasesPath(), 'app_database.db');
-    print('Database path: $path');
+    print('Database path: ${join(await databaseFactory.getDatabasesPath(), 'app_database.db')}');
 
     _database = await databaseFactory.openDatabase(
       join(await databaseFactory.getDatabasesPath(), 'app_database.db'),
       options: OpenDatabaseOptions(
         onCreate: (db, version) {
           return db.execute(
-            'CREATE TABLE $_kTableTeams($_kColumnNumber INTEGER PRIMARY KEY, $_kColumnName TEXT, $_kColumnOPR DOUBLE, $_kColumnCustomTeamInfo TEXT)',
+            'CREATE TABLE $_kTableTeams($_kColumnNumber INTEGER PRIMARY KEY, $_kColumnName TEXT, $_kColumnOPR REAL, $_kColumnCustomTeamInfo TEXT)',
           );
         },
         version: 1,

@@ -136,7 +136,7 @@ class _TeamScreenState extends State<TeamScreen> {
                     onChanged: (value) => setState(() {
                       if (value.isEmpty || RegExp(r"^[0-9]+ *[\+, ] *[0-9]+$").hasMatch(value)) {
                         final matches = RegExp(r"[0-9]+").allMatches(value).map((m) => m.group(0)!);
-                        team.customTeamInfo.leftAuto = matches.join("+");
+                        team.customTeamInfo.leftAuto = "${team.customTeamInfo.leftAuto}, ${matches.join("+")}";
                         setState(() {}); // Trigger UI update
                       }
                     }),
@@ -149,7 +149,6 @@ class _TeamScreenState extends State<TeamScreen> {
                     label: 'Right Option',
                     options: ['Option 1', 'Option 2', 'Option 3'],
                     onChanged: (value) {
-                      // handle right option
                     },
                   ),
                 ),
@@ -162,7 +161,6 @@ class _TeamScreenState extends State<TeamScreen> {
               label: 'Select End Game Option',
               options: ['Option 1', 'Option 2', 'Option 3'],
               onChanged: (value) {
-                // handle end game option
               },
             ),
             Text(team.customTeamInfo.toJson().toString())
