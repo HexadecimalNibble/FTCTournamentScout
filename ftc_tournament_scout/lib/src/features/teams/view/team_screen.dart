@@ -26,6 +26,14 @@ class TeamScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // This is updated by this page and is then pushed to the database when the save button is pushed.
+    Team team = viewModel.teams.firstWhere((team) => team.number == teamNumber);
+    // Initialize the notes entry to previously entered notes, stripping quotes
+    final notesController = TextEditingController(
+      text: team.customTeamInfo.notes.replaceAll("\"", "")
+    );
+    print("Notes: ${team.customTeamInfo.notes}");
+
     return LayoutBuilder(
       builder: (context, constraints) {
         final colors = Theme.of(context).colorScheme;
@@ -34,11 +42,23 @@ class TeamScreen extends StatelessWidget {
             : max(constraints.biggest.height * 0.25, 250);
         // if (constraints.isMobile) {
         // }
-        Team team = viewModel.teams.firstWhere((team) => team.number == teamNumber);
+
         return Scaffold(
           appBar: AppBar(
             title: Text("${team.name} - #${team.number}"),
             toolbarHeight: kToolbarHeight * 2,
+            actions: [
+              IconButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    viewModel.update.execute(team);
+
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Team data saved.')));
+                  }
+                },
+                icon: Icon(Icons.save),
+              ),
+            ],
           ),
           body: Form(
             key: _formKey,
@@ -51,7 +71,7 @@ class TeamScreen extends StatelessWidget {
                 const SizedBox(height: 10),
                 TextFormField(
                   autofocus: true,
-                  // controller: numberController,
+                  controller: notesController,
                   decoration: const InputDecoration(labelText: "Notes"),
                   minLines: 1,
                   maxLines: 5,
@@ -63,6 +83,9 @@ class TeamScreen extends StatelessWidget {
                   //   }
                   //   return null;
                   // },
+                  onChanged: (value) => {
+                    team.customTeamInfo.notes = "\"$value\""
+                  },
                 ),
                 const SizedBox(height: 5),
                 Text(
@@ -155,9 +178,3 @@ class TeamScreen extends StatelessWidget {
     );
   }
 }
-
-// BackButton(
-//   onPressed: () => GoRouter.of(context).go('/teams'),
-// ),
-
-// Text(viewModel.teams.firstWhere((team) => team.number == teamNumber).name)

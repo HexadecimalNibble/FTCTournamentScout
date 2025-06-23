@@ -56,7 +56,7 @@ class DatabaseService {
     try {
       await _database!.update(
         _kTableTeams,
-        {_kColumnNumber: team.number, _kColumnName: team.name, _kColumnOPR: team.opr, _kColumnCustomTeamInfo: team.customTeamInfo.toJson()},
+        {_kColumnNumber: team.number, _kColumnName: team.name, _kColumnOPR: team.opr, _kColumnCustomTeamInfo: team.customTeamInfo.toJson().toString()},
         where: '$_kColumnNumber = ?',
         whereArgs: [team.number],
       );
