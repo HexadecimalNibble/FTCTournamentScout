@@ -10,21 +10,20 @@ class DatabaseService {
 
   final DatabaseFactory databaseFactory;
 
-  // #docregion Table
   static const _kTableTeams = 'teams';
   static const _kColumnNumber = 'number';
   static const _kColumnName = 'name';
   static const _kColumnOPR = 'opr';
   static const _kColumnCustomTeamInfo = 'customTeamInfo';
-  // #enddocregion Table
 
   Database? _database;
 
   bool isOpen() => _database != null;
 
-  // #docregion Open
   Future<void> open() async {
-    print('Database path: ${join(await databaseFactory.getDatabasesPath(), 'app_database.db')}');
+    print(
+      'Database path: ${join(await databaseFactory.getDatabasesPath(), 'app_database.db')}',
+    );
 
     _database = await databaseFactory.openDatabase(
       join(await databaseFactory.getDatabasesPath(), 'app_database.db'),
@@ -38,11 +37,15 @@ class DatabaseService {
       ),
     );
   }
-  // #enddocregion Open
 
   Future<Result<Team>> insert(Team team) async {
     try {
-      await _database!.insert(_kTableTeams, {_kColumnNumber: team.number, _kColumnName: team.name, _kColumnOPR: team.opr, _kColumnCustomTeamInfo: team.customTeamInfo.toJson().toString()});
+      await _database!.insert(_kTableTeams, {
+        _kColumnNumber: team.number,
+        _kColumnName: team.name,
+        _kColumnOPR: team.opr,
+        _kColumnCustomTeamInfo: team.customTeamInfo.toJson().toString(),
+      });
       return Result.ok(team);
     } on Exception catch (e) {
       return Result.error(e);
@@ -55,7 +58,11 @@ class DatabaseService {
     try {
       await _database!.update(
         _kTableTeams,
-        {_kColumnNumber: team.number, _kColumnName: team.name, _kColumnOPR: team.opr, _kColumnCustomTeamInfo: team.customTeamInfo.toJson().toString()},
+        {
+          _kColumnName: team.name,
+          _kColumnOPR: team.opr,
+          _kColumnCustomTeamInfo: team.customTeamInfo.toJson().toString(),
+        },
         where: '$_kColumnNumber = ?',
         whereArgs: [team.number],
       );
@@ -65,7 +72,6 @@ class DatabaseService {
     }
   }
 
-  // #docregion GetAll
   Future<Result<List<Team>>> getAll() async {
     try {
       final entries = await _database!.query(
@@ -78,7 +84,11 @@ class DatabaseService {
               number: element[_kColumnNumber] as int,
               name: element[_kColumnName] as String,
               opr: element[_kColumnOPR] as double,
-              customTeamInfo: element[_kColumnCustomTeamInfo] == null ? CustomTeamInfo() : CustomTeamInfo.fromJson(element[_kColumnCustomTeamInfo] as Map<String, dynamic>),
+              customTeamInfo: element[_kColumnCustomTeamInfo] == null
+                  ? CustomTeamInfo()
+                  : CustomTeamInfo.fromJson(
+                      element[_kColumnCustomTeamInfo] as Map<String, dynamic>,
+                    ),
             ),
           )
           .toList();
@@ -87,9 +97,7 @@ class DatabaseService {
       return Result.error(e);
     }
   }
-  // #enddocregion GetAll
 
-  // #docregion Delete
   Future<Result<void>> delete(int teamNumber) async {
     try {
       final rowsDeleted = await _database!.delete(
@@ -98,14 +106,15 @@ class DatabaseService {
         whereArgs: [teamNumber],
       );
       if (rowsDeleted == 0) {
-        return Result.error(Exception('No team found with teamNumber: $teamNumber'));
+        return Result.error(
+          Exception('No team found with teamNumber: $teamNumber'),
+        );
       }
       return Result.ok(null);
     } on Exception catch (e) {
       return Result.error(e);
     }
   }
-  // #enddocregion Delete
 
   Future close() async {
     await _database?.close();

@@ -34,8 +34,9 @@ class TeamScreen extends StatefulWidget {
 class _TeamScreenState extends State<TeamScreen> {
   late Team team;
   final _formKey = GlobalKey<FormState>();
-  late TextEditingController notesController;
+  late TextEditingController generalNotesController;
   late TextEditingController leftAutoController;
+  late TextEditingController leftAutoNotesController;
 
   final newLeftAutoItemController = TextEditingController();
   bool isLeftAutoInputValid = false;
@@ -51,9 +52,14 @@ class _TeamScreenState extends State<TeamScreen> {
     team = widget.viewModel.teams.firstWhere(
       (t) => t.number == widget.teamNumber,
     );
-    notesController = TextEditingController(text: team.customTeamInfo.notes);
+    generalNotesController = TextEditingController(
+      text: team.customTeamInfo.generalNotes,
+    );
     leftAutoController = TextEditingController(
       text: team.customTeamInfo.leftAuto,
+    );
+    leftAutoNotesController = TextEditingController(
+      text: team.customTeamInfo.leftAutoNotes,
     );
 
     newLeftAutoItemController.addListener(() {
@@ -70,7 +76,7 @@ class _TeamScreenState extends State<TeamScreen> {
 
   @override
   void dispose() {
-    notesController.dispose();
+    generalNotesController.dispose();
     leftAutoController.dispose();
     newLeftAutoItemController.dispose();
     super.dispose();
@@ -159,13 +165,13 @@ class _TeamScreenState extends State<TeamScreen> {
             Text("General", style: context.titleLarge),
             const SizedBox(height: 10),
             TextFormField(
-              controller: notesController,
+              controller: generalNotesController,
               decoration: const InputDecoration(labelText: "Notes"),
               minLines: 1,
               maxLines: 5,
               keyboardType: TextInputType.text,
               onChanged: (value) => setState(() {
-                team.customTeamInfo.notes = value;
+                team.customTeamInfo.generalNotes = value;
                 updateTeam(team);
               }),
             ),
@@ -245,6 +251,17 @@ class _TeamScreenState extends State<TeamScreen> {
                           ),
                         ],
                       ),
+                      TextFormField(
+                        controller: leftAutoNotesController,
+                        decoration: const InputDecoration(labelText: "Notes"),
+                        minLines: 1,
+                        maxLines: 5,
+                        keyboardType: TextInputType.text,
+                        onChanged: (value) => setState(() {
+                          team.customTeamInfo.leftAutoNotes = value;
+                          updateTeam(team);
+                        }),
+                      ),
                     ],
                   ),
                 ),
@@ -267,7 +284,13 @@ class _TeamScreenState extends State<TeamScreen> {
               options: ['Option 1', 'Option 2', 'Option 3'],
               onChanged: (value) {},
             ),
-            Text(team.customTeamInfo.toJson().toString()),
+            Text(
+              widget.viewModel.teams
+                  .firstWhere((t) => t.number == widget.teamNumber)
+                  .customTeamInfo
+                  .toJson()
+                  .toString(),
+            ),
           ],
         ),
       ),

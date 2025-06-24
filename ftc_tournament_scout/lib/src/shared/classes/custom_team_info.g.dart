@@ -8,9 +8,14 @@ part of 'custom_team_info.dart';
 
 CustomTeamInfo _$CustomTeamInfoFromJson(Map<String, dynamic> json) =>
     CustomTeamInfo(
-      notes: json['notes'] as String? ?? "",
+      generalNotes: json['generalNotes'] as String? ?? "",
       leftAuto: json['leftAuto'] as String? ?? "",
+      leftAutoNotes: json['leftAutoNotes'] as String? ?? "",
     );
 
 Map<String, dynamic> _$CustomTeamInfoToJson(CustomTeamInfo instance) =>
-    <String, dynamic>{'notes': instance.notes, 'leftAuto': instance.leftAuto};
+    <String, dynamic>{
+      'generalNotes': instance.generalNotes,
+      'leftAuto': instance.leftAuto,
+      'leftAutoNotes': instance.leftAutoNotes,
+    };
