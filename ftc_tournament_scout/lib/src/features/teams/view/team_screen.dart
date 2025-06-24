@@ -82,37 +82,41 @@ class _TeamScreenState extends State<TeamScreen> {
     );
   }
 
-  void _saveTeam() {
-    if (_formKey.currentState!.validate()) {
-      widget.viewModel.update.execute(team);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Team data saved.'),
-          showCloseIcon: true,
-        ),
-      );
-    }
-  }
+  // void _saveTeam() {
+  //   if (_formKey.currentState!.validate()) {
+  //     widget.viewModel.update.execute(team);
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(
+  //         content: Text('Team data saved.'),
+  //         showCloseIcon: true,
+  //       ),
+  //     );
+  //   }
+  // }
 
   List<String> get leftAutoPrograms {
+  // FIX TO USE THE REGEX PROB
   return team.customTeamInfo.leftAuto
       .split(',')
       .map((e) => e.trim())
       .where((e) => e.isNotEmpty)
       .toList();
-}
+  }
 
-void updateLeftAutoPrograms(List<String> items) {
-  team.customTeamInfo.leftAuto = items.join(', ');
-}
+  void updateLeftAutoPrograms(List<String> items) {
+    team.customTeamInfo.leftAuto = items.join(', ');
+  }
 
-void submitLeftAuto() {
-  setState(() {
-    updateLeftAutoPrograms([...leftAutoPrograms, RegExp(r"[0-9]+").allMatches(newLeftAutoItemController.text).map((m) => m.group(0)!).join("+")],);
-    newLeftAutoItemController.clear();
-  });
-}
+  void submitLeftAuto() {
+    setState(() {
+      updateLeftAutoPrograms([...leftAutoPrograms, RegExp(r"[0-9]+").allMatches(newLeftAutoItemController.text).map((m) => m.group(0)!).join("+")],);
+      newLeftAutoItemController.clear();
+    });
+  }
 
+  void updateTeam() {
+    widget.viewModel.update.execute(team);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -122,12 +126,12 @@ void submitLeftAuto() {
       appBar: AppBar(
         title: Text("${team.name} - #${team.number}"),
         toolbarHeight: kToolbarHeight * 2,
-        actions: [
-          IconButton(
-            onPressed: _saveTeam,
-            icon: const Icon(Icons.save),
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: _saveTeam,
+        //     icon: const Icon(Icons.save),
+        //   ),
+        // ],
       ),
       body: Form(
         key: _formKey,
@@ -144,6 +148,7 @@ void submitLeftAuto() {
               keyboardType: TextInputType.text,
               onChanged: (value) => setState(() {
                 team.customTeamInfo.notes = value;
+                updateTeam();
               }),
             ),
             const SizedBox(height: 20),
