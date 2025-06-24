@@ -193,14 +193,10 @@ class _TeamScreenState extends State<TeamScreen> {
                               label: Text(auto),
                               deleteIcon: const Icon(Icons.close),
                               onDeleted: () {
-                                // final updated = [...leftAutoPrograms]..remove(auto);
                                 setState(() {
-                                  // updateLeftAutoPrograms(updated);
                                   var autos = team.customTeamInfo.leftAuto
                                       .split(", ");
-                                  // print("auto ${auto}; autos: ${autos}");
-                                  // print(autos.remove(auto));
-                                  // print("autos ${autos}");
+                                  autos.remove(auto);
                                   team.customTeamInfo.leftAuto = autos.join(
                                     ", ",
                                   );
