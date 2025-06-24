@@ -106,6 +106,13 @@ void updateLeftAutoPrograms(List<String> items) {
   team.customTeamInfo.leftAuto = items.join(', ');
 }
 
+void submitLeftAuto() {
+  setState(() {
+    updateLeftAutoPrograms([...leftAutoPrograms, RegExp(r"[0-9]+").allMatches(newLeftAutoItemController.text).map((m) => m.group(0)!).join("+")],);
+    newLeftAutoItemController.clear();
+  });
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -188,12 +195,7 @@ void updateLeftAutoPrograms(List<String> items) {
                                 return null;
                               },
                               onFieldSubmitted: (value) => {
-                                if (isLeftAutoInputValid) {
-                                  setState(() {
-                                    updateLeftAutoPrograms([...leftAutoPrograms, RegExp(r"[0-9]+").allMatches(newLeftAutoItemController.text).map((m) => m.group(0)!).join("+")],);
-                                    newLeftAutoItemController.clear();
-                                  })
-                                }
+                                if (isLeftAutoInputValid) submitLeftAuto()
                               },
                             ),
                           ),
@@ -201,16 +203,7 @@ void updateLeftAutoPrograms(List<String> items) {
                           ElevatedButton.icon(
                             icon: const Icon(Icons.add),
                             label: const Text("Add"),
-                            onPressed: isLeftAutoInputValid
-                                ? () {
-                                    final value = RegExp(r"[0-9]+").allMatches(newLeftAutoItemController.text).map((m) => m.group(0)!).join("+");
-                                    final updated = [...leftAutoPrograms, value];
-                                    setState(() {
-                                      updateLeftAutoPrograms(updated);
-                                      newLeftAutoItemController.clear();
-                                    });
-                                  }
-                                : null, // disables the button
+                            onPressed: isLeftAutoInputValid ? () { submitLeftAuto(); } : null, // disables the button
                           ),
                         ],
                       ),
