@@ -39,6 +39,11 @@ class _TeamScreenState extends State<TeamScreen> {
   @override
   void initState() {
     super.initState();
+    // Team currently selected is passed by reference for ease of use.
+    // However, this value should NOT be added to or modified in any way and the team should only be changed through the update function.
+    // If this value is modified it probably won't update the database accordingly and thus the changes made won't be saved.
+    // However, it is prob okay to change this value if you remember to call updateTeam() after to update the database.
+    // In the event of a change, since this variable is a reference to the original, this variable's value will update with the change.
     team = widget.viewModel.teams.firstWhere((t) => t.number == widget.teamNumber);
     notesController = TextEditingController(text: team.customTeamInfo.notes);
     leftAutoController = TextEditingController(text: team.customTeamInfo.leftAuto);
@@ -104,19 +109,20 @@ class _TeamScreenState extends State<TeamScreen> {
   }
 
   void updateLeftAutoPrograms(List<String> items) {
+    // TODO: FIX
     team.customTeamInfo.leftAuto = items.join(', ');
   }
 
   void submitLeftAuto() {
     setState(() {
-      updateLeftAutoPrograms([...leftAutoPrograms, RegExp(r"[0-9]+").allMatches(newLeftAutoItemController.text).map((m) => m.group(0)!).join("+")],);
+      // updateLeftAutoPrograms([...leftAutoPrograms, RegExp(r"[0-9]+").allMatches(newLeftAutoItemController.text).map((m) => m.group(0)!).join("+")],);
+      team.customTeamInfo.leftAuto = "${team.customTeamInfo.leftAuto}, ${RegExp(r"[0-9]+").allMatches(newLeftAutoItemController.text).map((m) => m.group(0)!).join("+")}";
+      updateTeam(team);
       newLeftAutoItemController.clear();
     });
   }
 
-  void updateTeam() {
-    widget.viewModel.update.execute(team);
-  }
+  void updateTeam(Team teamToUpdateWith) => widget.viewModel.update.execute(teamToUpdateWith);
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +154,7 @@ class _TeamScreenState extends State<TeamScreen> {
               keyboardType: TextInputType.text,
               onChanged: (value) => setState(() {
                 team.customTeamInfo.notes = value;
-                updateTeam();
+                updateTeam(team);
               }),
             ),
             const SizedBox(height: 20),
@@ -165,14 +171,20 @@ class _TeamScreenState extends State<TeamScreen> {
                         spacing: 8,
                         runSpacing: 4,
                         children: [
-                          for (final entry in leftAutoPrograms)
+                          for (final auto in team.customTeamInfo.leftAuto.split(", ").map((s) => s.trim()).where((s) => s.isNotEmpty).toList())
                             Chip(
-                              label: Text(entry),
+                              label: Text(auto),
                               deleteIcon: const Icon(Icons.close),
                               onDeleted: () {
-                                final updated = [...leftAutoPrograms]..remove(entry);
+                                // final updated = [...leftAutoPrograms]..remove(auto);
                                 setState(() {
-                                  updateLeftAutoPrograms(updated);
+                                  // updateLeftAutoPrograms(updated);
+                                  var autos = team.customTeamInfo.leftAuto.split(", ");
+                                  print("auto ${auto}; autos: ${autos}");
+                                  print(autos.remove(auto));
+                                  print("autos ${autos}");
+                                  team.customTeamInfo.leftAuto = autos.join(", ");
+                                  updateTeam(team);
                                 });
                               },
                             ),
