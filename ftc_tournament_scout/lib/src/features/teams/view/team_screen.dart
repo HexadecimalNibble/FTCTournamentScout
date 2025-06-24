@@ -116,7 +116,12 @@ class _TeamScreenState extends State<TeamScreen> {
   void submitLeftAuto() {
     setState(() {
       // updateLeftAutoPrograms([...leftAutoPrograms, RegExp(r"[0-9]+").allMatches(newLeftAutoItemController.text).map((m) => m.group(0)!).join("+")],);
-      team.customTeamInfo.leftAuto = "${team.customTeamInfo.leftAuto}, ${RegExp(r"[0-9]+").allMatches(newLeftAutoItemController.text).map((m) => m.group(0)!).join("+")}";
+      final newAuto = RegExp(r"[0-9]+").allMatches(newLeftAutoItemController.text).map((m) => m.group(0)!).join("+");
+      if (team.customTeamInfo.leftAuto.isEmpty) {
+        team.customTeamInfo.leftAuto = newAuto;
+      } else {
+        team.customTeamInfo.leftAuto = "${team.customTeamInfo.leftAuto}, $newAuto";
+      }
       updateTeam(team);
       newLeftAutoItemController.clear();
     });
