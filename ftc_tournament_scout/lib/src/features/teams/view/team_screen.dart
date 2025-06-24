@@ -187,6 +187,14 @@ void updateLeftAutoPrograms(List<String> items) {
                                 }
                                 return null;
                               },
+                              onFieldSubmitted: (value) => {
+                                if (isLeftAutoInputValid) {
+                                  setState(() {
+                                    updateLeftAutoPrograms([...leftAutoPrograms, RegExp(r"[0-9]+").allMatches(newLeftAutoItemController.text).map((m) => m.group(0)!).join("+")],);
+                                    newLeftAutoItemController.clear();
+                                  })
+                                }
+                              },
                             ),
                           ),
                           const SizedBox(width: 8),
