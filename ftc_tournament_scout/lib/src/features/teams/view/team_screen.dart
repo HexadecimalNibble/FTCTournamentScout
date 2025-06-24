@@ -21,7 +21,11 @@ class TeamScreen extends StatefulWidget {
   final int teamNumber;
   final TeamsViewModel viewModel;
 
-  const TeamScreen({required this.teamNumber, required this.viewModel, super.key});
+  const TeamScreen({
+    required this.teamNumber,
+    required this.viewModel,
+    super.key,
+  });
 
   @override
   State<TeamScreen> createState() => _TeamScreenState();
@@ -44,9 +48,13 @@ class _TeamScreenState extends State<TeamScreen> {
     // If this value is modified it probably won't update the database accordingly and thus the changes made won't be saved.
     // However, it is prob okay to change this value if you remember to call updateTeam() after to update the database.
     // In the event of a change, since this variable is a reference to the original, this variable's value will update with the change.
-    team = widget.viewModel.teams.firstWhere((t) => t.number == widget.teamNumber);
+    team = widget.viewModel.teams.firstWhere(
+      (t) => t.number == widget.teamNumber,
+    );
     notesController = TextEditingController(text: team.customTeamInfo.notes);
-    leftAutoController = TextEditingController(text: team.customTeamInfo.leftAuto);
+    leftAutoController = TextEditingController(
+      text: team.customTeamInfo.leftAuto,
+    );
 
     newLeftAutoItemController.addListener(() {
       final text = newLeftAutoItemController.text.trim();
@@ -100,12 +108,12 @@ class _TeamScreenState extends State<TeamScreen> {
   // }
 
   List<String> get leftAutoPrograms {
-  // FIX TO USE THE REGEX PROB
-  return team.customTeamInfo.leftAuto
-      .split(',')
-      .map((e) => e.trim())
-      .where((e) => e.isNotEmpty)
-      .toList();
+    // FIX TO USE THE REGEX PROB
+    return team.customTeamInfo.leftAuto
+        .split(',')
+        .map((e) => e.trim())
+        .where((e) => e.isNotEmpty)
+        .toList();
   }
 
   void updateLeftAutoPrograms(List<String> items) {
@@ -116,18 +124,23 @@ class _TeamScreenState extends State<TeamScreen> {
   void submitLeftAuto() {
     setState(() {
       // updateLeftAutoPrograms([...leftAutoPrograms, RegExp(r"[0-9]+").allMatches(newLeftAutoItemController.text).map((m) => m.group(0)!).join("+")],);
-      final newAuto = RegExp(r"[0-9]+").allMatches(newLeftAutoItemController.text).map((m) => m.group(0)!).join("+");
+      final newAuto = RegExp(r"[0-9]+")
+          .allMatches(newLeftAutoItemController.text)
+          .map((m) => m.group(0)!)
+          .join("+");
       if (team.customTeamInfo.leftAuto.isEmpty) {
         team.customTeamInfo.leftAuto = newAuto;
       } else {
-        team.customTeamInfo.leftAuto = "${team.customTeamInfo.leftAuto}, $newAuto";
+        team.customTeamInfo.leftAuto =
+            "${team.customTeamInfo.leftAuto}, $newAuto";
       }
       updateTeam(team);
       newLeftAutoItemController.clear();
     });
   }
 
-  void updateTeam(Team teamToUpdateWith) => widget.viewModel.update.execute(teamToUpdateWith);
+  void updateTeam(Team teamToUpdateWith) =>
+      widget.viewModel.update.execute(teamToUpdateWith);
 
   @override
   Widget build(BuildContext context) {
@@ -137,12 +150,6 @@ class _TeamScreenState extends State<TeamScreen> {
       appBar: AppBar(
         title: Text("${team.name} - #${team.number}"),
         toolbarHeight: kToolbarHeight * 2,
-        // actions: [
-        //   IconButton(
-        //     onPressed: _saveTeam,
-        //     icon: const Icon(Icons.save),
-        //   ),
-        // ],
       ),
       body: Form(
         key: _formKey,
@@ -176,7 +183,12 @@ class _TeamScreenState extends State<TeamScreen> {
                         spacing: 8,
                         runSpacing: 4,
                         children: [
-                          for (final auto in team.customTeamInfo.leftAuto.split(", ").map((s) => s.trim()).where((s) => s.isNotEmpty).toList())
+                          for (final auto
+                              in team.customTeamInfo.leftAuto
+                                  .split(", ")
+                                  .map((s) => s.trim())
+                                  .where((s) => s.isNotEmpty)
+                                  .toList())
                             Chip(
                               label: Text(auto),
                               deleteIcon: const Icon(Icons.close),
@@ -184,11 +196,14 @@ class _TeamScreenState extends State<TeamScreen> {
                                 // final updated = [...leftAutoPrograms]..remove(auto);
                                 setState(() {
                                   // updateLeftAutoPrograms(updated);
-                                  var autos = team.customTeamInfo.leftAuto.split(", ");
-                                  print("auto ${auto}; autos: ${autos}");
-                                  print(autos.remove(auto));
-                                  print("autos ${autos}");
-                                  team.customTeamInfo.leftAuto = autos.join(", ");
+                                  var autos = team.customTeamInfo.leftAuto
+                                      .split(", ");
+                                  // print("auto ${auto}; autos: ${autos}");
+                                  // print(autos.remove(auto));
+                                  // print("autos ${autos}");
+                                  team.customTeamInfo.leftAuto = autos.join(
+                                    ", ",
+                                  );
                                   updateTeam(team);
                                 });
                               },
@@ -202,22 +217,23 @@ class _TeamScreenState extends State<TeamScreen> {
                             child: TextFormField(
                               controller: newLeftAutoItemController,
                               decoration: const InputDecoration(
-                                labelText: "Add Auto (Spec. + Samp.)",
+                                labelText: "Add Left Auto (Spec. + Samp.)",
                                 border: OutlineInputBorder(),
                               ),
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                               validator: (value) {
-                                if (value == null || value == "") {
-                                  return null;
-                                }
+                                if (value == null || value == "") return null;
 
-                                if (!RegExp(r"^[0-9]+ *[\+, ] *[0-9]+$").hasMatch(value)) {
-                                  return "Enter as: Specimens+Samples (e.g. 2 + 1)";
+                                if (!RegExp(
+                                  r"^[0-9]+ *[\+, ] *[0-9]+$",
+                                ).hasMatch(value)) {
+                                  return "Enter as: Specimens+Samples (2+1) or similar";
                                 }
                                 return null;
                               },
                               onFieldSubmitted: (value) => {
-                                if (isLeftAutoInputValid) submitLeftAuto()
+                                if (isLeftAutoInputValid) submitLeftAuto(),
                               },
                             ),
                           ),
@@ -225,13 +241,16 @@ class _TeamScreenState extends State<TeamScreen> {
                           ElevatedButton.icon(
                             icon: const Icon(Icons.add),
                             label: const Text("Add"),
-                            onPressed: isLeftAutoInputValid ? () { submitLeftAuto(); } : null, // disables the button
+                            onPressed: isLeftAutoInputValid
+                                ? () {
+                                    submitLeftAuto();
+                                  }
+                                : null, // disables the button
                           ),
                         ],
                       ),
                     ],
                   ),
-
                 ),
                 const SizedBox(width: 10),
                 // Right Side
@@ -239,8 +258,7 @@ class _TeamScreenState extends State<TeamScreen> {
                   child: buildDropdown(
                     label: 'Right Option',
                     options: ['Option 1', 'Option 2', 'Option 3'],
-                    onChanged: (value) {
-                    },
+                    onChanged: (value) {},
                   ),
                 ),
               ],
@@ -251,10 +269,9 @@ class _TeamScreenState extends State<TeamScreen> {
             buildDropdown(
               label: 'Select End Game Option',
               options: ['Option 1', 'Option 2', 'Option 3'],
-              onChanged: (value) {
-              },
+              onChanged: (value) {},
             ),
-            Text(team.customTeamInfo.toJson().toString())
+            Text(team.customTeamInfo.toJson().toString()),
           ],
         ),
       ),

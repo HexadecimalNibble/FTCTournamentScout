@@ -22,7 +22,6 @@ Future setDesktopWindow() async {
 }
 
 @override
-
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -42,5 +41,11 @@ void main() {
     databaseService = DatabaseService(databaseFactory: databaseFactory);
   }
 
-  runApp(MyApp(appRouter: createRouter(TeamsViewModel(teamProvider: TeamProvider(database: databaseService)))));
+  runApp(
+    MyApp(
+      appRouter: createRouter(
+        TeamsViewModel(teamProvider: TeamProvider(database: databaseService)),
+      ),
+    ),
+  );
 }
