@@ -95,7 +95,8 @@ class DatabaseService {
               customTeamInfo: element[_kColumnCustomTeamInfo] == null
                   ? CustomTeamInfo()
                   : CustomTeamInfo.fromJson(
-                      jsonDecode(element[_kColumnCustomTeamInfo] as String),
+                      jsonDecode(element[_kColumnCustomTeamInfo] as String)
+                          as Map<String, dynamic>,
                       // element[_kColumnCustomTeamInfo] as Map<String, dynamic>,
                     ),
             ),
