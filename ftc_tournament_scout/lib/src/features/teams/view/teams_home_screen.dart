@@ -26,7 +26,6 @@ class TeamsHomeScreen extends StatelessWidget {
   final oprController = TextEditingController();
   final customTeamInfo = TextEditingController();
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,6 +44,7 @@ class TeamsHomeScreen extends StatelessWidget {
                 DataColumn(label: Text('#')),
                 DataColumn(label: Text('Name')),
                 DataColumn(label: Text('OPR')),
+                DataColumn(label: Text('custominfo')),
                 DataColumn(label: Text('')), // Action column (delete button)
               ],
               rows: viewModel.teams.asMap().entries.map((entry) {
@@ -61,6 +61,7 @@ class TeamsHomeScreen extends StatelessWidget {
                     DataCell(Text(team.number.toString())),
                     DataCell(Text(team.name)),
                     DataCell(Text(team.opr.toString())),
+                    DataCell(Text(team.customTeamInfo.toJson().toString())),
                     // TODO: MAYBE MOVE THE DELETE BUTTON TO BE INSIDE THE DETAILED TEAM VIEW
                     DataCell(
                       IconButton(
@@ -111,10 +112,18 @@ class TeamsHomeScreen extends StatelessWidget {
                                     TextFormField(
                                       autofocus: true,
                                       controller: numberController,
-                                      decoration: const InputDecoration(labelText: "Team Number"),
+                                      decoration: const InputDecoration(
+                                        labelText: "Team Number",
+                                      ),
                                       keyboardType: TextInputType.number,
                                       validator: (value) {
-                                        if (value == null || int.tryParse(value) == null || viewModel.teams.any((team) => team.number == int.tryParse(value))) {
+                                        if (value == null ||
+                                            int.tryParse(value) == null ||
+                                            viewModel.teams.any(
+                                              (team) =>
+                                                  team.number ==
+                                                  int.tryParse(value),
+                                            )) {
                                           return "Enter a valid team number that hasn't already been added.";
                                         }
                                         return null;
@@ -123,9 +132,12 @@ class TeamsHomeScreen extends StatelessWidget {
                                     const SizedBox(height: 10),
                                     TextFormField(
                                       controller: nameController,
-                                      decoration: const InputDecoration(labelText: "Team Name"),
+                                      decoration: const InputDecoration(
+                                        labelText: "Team Name",
+                                      ),
                                       validator: (value) {
-                                        if (value == null || value.trim().isEmpty) {
+                                        if (value == null ||
+                                            value.trim().isEmpty) {
                                           return "Enter a valid team name.";
                                         }
                                         return null;
@@ -134,8 +146,13 @@ class TeamsHomeScreen extends StatelessWidget {
                                     const SizedBox(height: 10),
                                     TextFormField(
                                       controller: oprController,
-                                      decoration: const InputDecoration(labelText: "OPR"),
-                                      keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                      decoration: const InputDecoration(
+                                        labelText: "OPR",
+                                      ),
+                                      keyboardType:
+                                          TextInputType.numberWithOptions(
+                                            decimal: true,
+                                          ),
                                       validator: (value) {
                                         if (value == null) return null;
                                         if (double.tryParse(value) == null) {
@@ -147,27 +164,44 @@ class TeamsHomeScreen extends StatelessWidget {
                                     const SizedBox(height: 10),
                                     TextFormField(
                                       controller: customTeamInfo,
-                                      decoration: const InputDecoration(labelText: "Custom Team Info"),
+                                      decoration: const InputDecoration(
+                                        labelText: "Custom Team Info",
+                                      ),
                                       validator: (value) {
                                         // if (value == null || value.trim().isEmpty) return null;
                                         // if (value.trim().isEmpty) {
                                         //   return "Enter valid custom team info.";
                                         // }
-                                        // return null;
+                                        return null;
                                       },
                                     ),
                                     const SizedBox(height: 20),
                                     Center(
                                       child: ElevatedButton(
                                         onPressed: () {
-                                          if (_formKey.currentState!.validate()) {
+                                          if (_formKey.currentState!
+                                              .validate()) {
                                             viewModel.add.execute(
                                               Team(
-                                                number: int.parse(numberController.text),
-                                                name: nameController.text.trim(),
-                                                opr: oprController.text.isEmpty ? 0.0 : double.parse(oprController.text),
-                                                customTeamInfo: customTeamInfo.text.isEmpty ? CustomTeamInfo() : CustomTeamInfo.fromJson(jsonDecode(customTeamInfo.text))
-                                              )
+                                                number: int.parse(
+                                                  numberController.text,
+                                                ),
+                                                name: nameController.text
+                                                    .trim(),
+                                                opr: oprController.text.isEmpty
+                                                    ? 0.0
+                                                    : double.parse(
+                                                        oprController.text,
+                                                      ),
+                                                customTeamInfo:
+                                                    customTeamInfo.text.isEmpty
+                                                    ? CustomTeamInfo()
+                                                    : CustomTeamInfo.fromJson(
+                                                        jsonDecode(
+                                                          customTeamInfo.text,
+                                                        ),
+                                                      ),
+                                              ),
                                             );
                                             // Reset form
                                             _formKey.currentState!.reset();
@@ -185,9 +219,7 @@ class TeamsHomeScreen extends StatelessWidget {
                             ),
 
                             // Second tab - Adding teams from existing event
-                            Center(
-                              child: Text("text"),
-                            ),
+                            Center(child: Text("text")),
                           ],
                         ),
                       ),

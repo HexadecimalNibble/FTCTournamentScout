@@ -4,8 +4,6 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:url_launcher/url_launcher.dart';
-
 import '../../../shared/classes/classes.dart';
 import '../../../shared/providers/providers.dart';
 import '../../../shared/views/views.dart';
@@ -82,7 +80,7 @@ class ArtistEvents extends StatelessWidget {
           DataCell(Text(item.date)),
           DataCell(Row(children: [Expanded(child: Text(item.name))])),
           DataCell(Text(item.name)),
-          DataCell(Text(item.name))
+          DataCell(Text(item.name)),
           // DataCell(Text(item.location)),
           // DataCell(
           //   Clickable(

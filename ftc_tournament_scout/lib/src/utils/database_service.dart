@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:ftc_tournament_scout/src/shared/classes/classes.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -56,6 +58,7 @@ class DatabaseService {
   /// The properties of the matching team in the database are updated based on the supplied team
   Future<Result<Team>> update(Team team) async {
     try {
+      print("updating with data: ${team.customTeamInfo.toJson().toString()}");
       await _database!.update(
         _kTableTeams,
         {
@@ -76,7 +79,12 @@ class DatabaseService {
     try {
       final entries = await _database!.query(
         _kTableTeams,
-        columns: [_kColumnNumber, _kColumnName, _kColumnOPR],
+        columns: [
+          _kColumnNumber,
+          _kColumnName,
+          _kColumnOPR,
+          _kColumnCustomTeamInfo,
+        ],
       );
       final list = entries
           .map(
@@ -87,7 +95,8 @@ class DatabaseService {
               customTeamInfo: element[_kColumnCustomTeamInfo] == null
                   ? CustomTeamInfo()
                   : CustomTeamInfo.fromJson(
-                      element[_kColumnCustomTeamInfo] as Map<String, dynamic>,
+                      jsonDecode(element[_kColumnCustomTeamInfo] as String),
+                      // element[_kColumnCustomTeamInfo] as Map<String, dynamic>,
                     ),
             ),
           )

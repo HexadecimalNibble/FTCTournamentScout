@@ -2,19 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'dart:math';
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:ftc_tournament_scout/src/utils/adaptive_column.dart';
-import 'package:ftc_tournament_scout/src/utils/adaptive_components.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../shared/classes/classes.dart';
 import '../../../shared/extensions.dart';
-import '../../../shared/views/adaptive_image_card.dart';
-import '../../../shared/views/views.dart';
-import 'event_teams.dart';
 import './teams_view_model.dart';
 
 class TeamScreen extends StatefulWidget {
