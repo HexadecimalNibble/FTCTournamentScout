@@ -46,7 +46,7 @@ class DatabaseService {
         _kColumnNumber: team.number,
         _kColumnName: team.name,
         _kColumnOPR: team.opr,
-        _kColumnCustomTeamInfo: team.customTeamInfo.toJson().toString(),
+        _kColumnCustomTeamInfo: jsonEncode(team.customTeamInfo.toJson()),
       });
       return Result.ok(team);
     } on Exception catch (e) {
@@ -64,7 +64,7 @@ class DatabaseService {
         {
           _kColumnName: team.name,
           _kColumnOPR: team.opr,
-          _kColumnCustomTeamInfo: team.customTeamInfo.toJson().toString(),
+          _kColumnCustomTeamInfo: jsonEncode(team.customTeamInfo.toJson()),
         },
         where: '$_kColumnNumber = ?',
         whereArgs: [team.number],
@@ -92,13 +92,17 @@ class DatabaseService {
               number: element[_kColumnNumber] as int,
               name: element[_kColumnName] as String,
               opr: element[_kColumnOPR] as double,
-              customTeamInfo: element[_kColumnCustomTeamInfo] == null
-                  ? CustomTeamInfo()
-                  : CustomTeamInfo.fromJson(
-                      jsonDecode(element[_kColumnCustomTeamInfo] as String)
-                          as Map<String, dynamic>,
-                      // element[_kColumnCustomTeamInfo] as Map<String, dynamic>,
-                    ),
+              // customTeamInfo: element[_kColumnCustomTeamInfo] == null
+              //     ? CustomTeamInfo()
+              //     : CustomTeamInfo.fromJson(
+              //         jsonDecode(element[_kColumnCustomTeamInfo] as String)
+              //             as Map<String, dynamic>,
+              //         // element[_kColumnCustomTeamInfo] as Map<String, dynamic>,
+              //       ),
+              customTeamInfo: CustomTeamInfo.fromJson(
+                jsonDecode(element[_kColumnCustomTeamInfo] as String)
+                    as Map<String, dynamic>,
+              ),
             ),
           )
           .toList();
