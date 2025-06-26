@@ -44,7 +44,6 @@ class TeamsHomeScreen extends StatelessWidget {
                 DataColumn(label: Text('#')),
                 DataColumn(label: Text('Name')),
                 DataColumn(label: Text('OPR')),
-                DataColumn(label: Text('custominfo')),
                 DataColumn(label: Text('')), // Action column (delete button)
               ],
               rows: viewModel.teams.asMap().entries.map((entry) {
@@ -61,7 +60,6 @@ class TeamsHomeScreen extends StatelessWidget {
                     DataCell(Text(team.number.toString())),
                     DataCell(Text(team.name)),
                     DataCell(Text(team.opr.toString())),
-                    DataCell(Text(team.customTeamInfo.toJson().toString())),
                     // TODO: MAYBE MOVE THE DELETE BUTTON TO BE INSIDE THE DETAILED TEAM VIEW
                     DataCell(
                       IconButton(
