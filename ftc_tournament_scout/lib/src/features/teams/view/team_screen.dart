@@ -363,6 +363,8 @@ class _TeamScreenState extends State<TeamScreen> {
               ],
             ),
             const SizedBox(height: 20),
+            Text("TeleOp", style: context.titleLarge),
+            const SizedBox(height: 20),
             Text("End Game", style: context.titleLarge),
             const SizedBox(height: 10),
             buildDropdown(
