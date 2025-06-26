@@ -26,11 +26,13 @@ class _TeamScreenState extends State<TeamScreen> {
   late Team team;
   final _formKey = GlobalKey<FormState>();
   late TextEditingController generalNotesController;
-  late TextEditingController leftAutoController;
   late TextEditingController leftAutoNotesController;
+  late TextEditingController rightAutoNotesController;
 
-  final newLeftAutoItemController = TextEditingController();
+  final newLeftAutoController = TextEditingController();
+  final newRightAutoController = TextEditingController();
   bool isLeftAutoInputValid = false;
+  bool isRightAutoInputValid = false;
 
   @override
   void initState() {
@@ -46,15 +48,15 @@ class _TeamScreenState extends State<TeamScreen> {
     generalNotesController = TextEditingController(
       text: team.customTeamInfo.generalNotes,
     );
-    leftAutoController = TextEditingController(
-      text: team.customTeamInfo.leftAuto,
-    );
     leftAutoNotesController = TextEditingController(
       text: team.customTeamInfo.leftAutoNotes,
     );
+    rightAutoNotesController = TextEditingController(
+      text: team.customTeamInfo.rightAutoNotes,
+    );
 
-    newLeftAutoItemController.addListener(() {
-      final text = newLeftAutoItemController.text.trim();
+    newLeftAutoController.addListener(() {
+      final text = newLeftAutoController.text.trim();
       final regex = RegExp(r"^[0-9]+ *[\+, ] *[0-9]+$");
       final valid = regex.hasMatch(text);
       if (valid != isLeftAutoInputValid) {
@@ -63,13 +65,24 @@ class _TeamScreenState extends State<TeamScreen> {
         });
       }
     });
+
+    newRightAutoController.addListener(() {
+      final text = newRightAutoController.text.trim();
+      final regex = RegExp(r"^[0-9]+ *[\+, ] *[0-9]+$");
+      final valid = regex.hasMatch(text);
+      if (valid != isRightAutoInputValid) {
+        setState(() {
+          isRightAutoInputValid = valid;
+        });
+      }
+    });
   }
 
   @override
   void dispose() {
     generalNotesController.dispose();
-    leftAutoController.dispose();
-    newLeftAutoItemController.dispose();
+    newLeftAutoController.dispose();
+    newRightAutoController.dispose();
     super.dispose();
   }
 
@@ -92,18 +105,6 @@ class _TeamScreenState extends State<TeamScreen> {
     );
   }
 
-  // void _saveTeam() {
-  //   if (_formKey.currentState!.validate()) {
-  //     widget.viewModel.update.execute(team);
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(
-  //         content: Text('Team data saved.'),
-  //         showCloseIcon: true,
-  //       ),
-  //     );
-  //   }
-  // }
-
   List<String> get leftAutoPrograms {
     // FIX TO USE THE REGEX PROB
     return team.customTeamInfo.leftAuto
@@ -120,9 +121,8 @@ class _TeamScreenState extends State<TeamScreen> {
 
   void submitLeftAuto() {
     setState(() {
-      // updateLeftAutoPrograms([...leftAutoPrograms, RegExp(r"[0-9]+").allMatches(newLeftAutoItemController.text).map((m) => m.group(0)!).join("+")],);
       final newAuto = RegExp(r"[0-9]+")
-          .allMatches(newLeftAutoItemController.text)
+          .allMatches(newLeftAutoController.text)
           .map((m) => m.group(0)!)
           .join("+");
       if (team.customTeamInfo.leftAuto.isEmpty) {
@@ -132,7 +132,24 @@ class _TeamScreenState extends State<TeamScreen> {
             "${team.customTeamInfo.leftAuto}, $newAuto";
       }
       updateTeam(team);
-      newLeftAutoItemController.clear();
+      newLeftAutoController.clear();
+    });
+  }
+
+  void submitRightAuto() {
+    setState(() {
+      final newAuto = RegExp(r"[0-9]+")
+          .allMatches(newRightAutoController.text)
+          .map((m) => m.group(0)!)
+          .join("+");
+      if (team.customTeamInfo.rightAuto.isEmpty) {
+        team.customTeamInfo.rightAuto = newAuto;
+      } else {
+        team.customTeamInfo.rightAuto =
+            "${team.customTeamInfo.rightAuto}, $newAuto";
+      }
+      updateTeam(team);
+      newRightAutoController.clear();
     });
   }
 
@@ -170,6 +187,7 @@ class _TeamScreenState extends State<TeamScreen> {
             Text("Auto", style: context.titleLarge),
             const SizedBox(height: 10),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Left Side
                 Expanded(
@@ -208,7 +226,7 @@ class _TeamScreenState extends State<TeamScreen> {
                         children: [
                           Expanded(
                             child: TextFormField(
-                              controller: newLeftAutoItemController,
+                              controller: newLeftAutoController,
                               decoration: const InputDecoration(
                                 labelText: "Add Left Auto (Spec. + Samp.)",
                                 border: OutlineInputBorder(),
@@ -256,13 +274,90 @@ class _TeamScreenState extends State<TeamScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: 20),
                 // Right Side
                 Expanded(
-                  child: buildDropdown(
-                    label: 'Right Option',
-                    options: ['Option 1', 'Option 2', 'Option 3'],
-                    onChanged: (value) {},
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 4,
+                        children: [
+                          for (final auto
+                              in team.customTeamInfo.rightAuto
+                                  .split(", ")
+                                  .map((s) => s.trim())
+                                  .where((s) => s.isNotEmpty)
+                                  .toList())
+                            Chip(
+                              label: Text(auto),
+                              deleteIcon: const Icon(Icons.close),
+                              onDeleted: () {
+                                setState(() {
+                                  var autos = team.customTeamInfo.rightAuto
+                                      .split(", ");
+                                  autos.remove(auto);
+                                  team.customTeamInfo.rightAuto = autos.join(
+                                    ", ",
+                                  );
+                                  updateTeam(team);
+                                });
+                              },
+                            ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              controller: newRightAutoController,
+                              decoration: const InputDecoration(
+                                labelText: "Add Right Auto (Spec. + Samp.)",
+                                border: OutlineInputBorder(),
+                              ),
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              validator: (value) {
+                                if (value == null || value == "") return null;
+
+                                if (!RegExp(
+                                  r"^[0-9]+ *[\+, ] *[0-9]+$",
+                                ).hasMatch(value)) {
+                                  return "Enter as: Specimens+Samples (2+1) or similar";
+                                }
+                                return null;
+                              },
+                              onFieldSubmitted: (value) => {
+                                if (isRightAutoInputValid) submitRightAuto(),
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          ElevatedButton.icon(
+                            icon: const Icon(Icons.add),
+                            label: const Text("Add"),
+                            onPressed: isRightAutoInputValid
+                                ? () {
+                                    submitRightAuto();
+                                  }
+                                : null, // disables the button
+                          ),
+                        ],
+                      ),
+                      TextFormField(
+                        controller: rightAutoNotesController,
+                        decoration: const InputDecoration(labelText: "Notes"),
+                        minLines: 1,
+                        maxLines: 5,
+                        keyboardType: TextInputType.text,
+                        onChanged: (value) => setState(() {
+                          team.customTeamInfo.rightAutoNotes = value;
+                          updateTeam(team);
+                        }),
+                      ),
+                    ],
                   ),
                 ),
               ],

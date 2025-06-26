@@ -58,7 +58,6 @@ class DatabaseService {
   /// The properties of the matching team in the database are updated based on the supplied team
   Future<Result<Team>> update(Team team) async {
     try {
-      print("updating with data: ${team.customTeamInfo.toJson().toString()}");
       await _database!.update(
         _kTableTeams,
         {

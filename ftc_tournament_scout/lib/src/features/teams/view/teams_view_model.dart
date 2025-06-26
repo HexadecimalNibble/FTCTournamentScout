@@ -57,7 +57,6 @@ class TeamsViewModel extends ChangeNotifier {
           _teams.add(result.value);
           return Result.ok(null);
         case Error():
-          print("ERROR: ${result.error}");
           return Result.error(result.error);
       }
     } on Exception catch (e) {
@@ -73,7 +72,10 @@ class TeamsViewModel extends ChangeNotifier {
       switch (result) {
         case Ok<Team>():
           // Update team in _teams list
-          _teams[_teams.indexWhere((team) => team.number == result.value.number)] = result.value;
+          _teams[_teams.indexWhere(
+                (team) => team.number == result.value.number,
+              )] =
+              result.value;
           return Result.ok(null);
         case Error():
           return Result.error(result.error);

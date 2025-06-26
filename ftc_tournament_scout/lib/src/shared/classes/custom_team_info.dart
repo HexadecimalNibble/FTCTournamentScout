@@ -13,11 +13,15 @@ class CustomTeamInfo {
     this.generalNotes = "",
     this.leftAuto = "",
     this.leftAutoNotes = "",
+    this.rightAuto = "",
+    this.rightAutoNotes = "",
   });
 
   String generalNotes;
   String leftAuto;
   String leftAutoNotes;
+  String rightAuto;
+  String rightAutoNotes;
 
   /// A necessary factory constructor for creating a new CustomTeamInfo instance
   /// from a map. Pass the map to the generated `_$CustomTeamInfoFromJson()` constructor.
