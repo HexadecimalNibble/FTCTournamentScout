@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:ftc_tournament_scout/src/shared/classes/classes.dart';
+import 'package:ftc_tournament_scout/src/shared/classes/team_stats.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -17,6 +18,7 @@ class DatabaseService {
   static const _kColumnName = 'name';
   static const _kColumnOPR = 'opr';
   static const _kColumnCustomTeamInfo = 'customTeamInfo';
+  static const _kColumnTeamStats = 'teamStats';
 
   Database? _database;
 
@@ -32,7 +34,7 @@ class DatabaseService {
       options: OpenDatabaseOptions(
         onCreate: (db, version) {
           return db.execute(
-            'CREATE TABLE $_kTableTeams($_kColumnNumber INTEGER PRIMARY KEY, $_kColumnName TEXT, $_kColumnOPR REAL, $_kColumnCustomTeamInfo TEXT)',
+            'CREATE TABLE $_kTableTeams($_kColumnNumber INTEGER PRIMARY KEY, $_kColumnName TEXT, $_kColumnOPR REAL, $_kColumnCustomTeamInfo TEXT, $_kColumnTeamStats TEXT)',
           );
         },
         version: 1,
@@ -47,6 +49,7 @@ class DatabaseService {
         _kColumnName: team.name,
         _kColumnOPR: team.opr,
         _kColumnCustomTeamInfo: jsonEncode(team.customTeamInfo.toJson()),
+        _kColumnTeamStats: jsonEncode(team.teamStats.toJson()),
       });
       return Result.ok(team);
     } on Exception catch (e) {
@@ -64,6 +67,7 @@ class DatabaseService {
           _kColumnName: team.name,
           _kColumnOPR: team.opr,
           _kColumnCustomTeamInfo: jsonEncode(team.customTeamInfo.toJson()),
+          _kColumnTeamStats: jsonEncode(team.teamStats.toJson()),
         },
         where: '$_kColumnNumber = ?',
         whereArgs: [team.number],
@@ -83,6 +87,7 @@ class DatabaseService {
           _kColumnName,
           _kColumnOPR,
           _kColumnCustomTeamInfo,
+          _kColumnTeamStats,
         ],
       );
       final list = entries
@@ -91,15 +96,12 @@ class DatabaseService {
               number: element[_kColumnNumber] as int,
               name: element[_kColumnName] as String,
               opr: element[_kColumnOPR] as double,
-              // customTeamInfo: element[_kColumnCustomTeamInfo] == null
-              //     ? CustomTeamInfo()
-              //     : CustomTeamInfo.fromJson(
-              //         jsonDecode(element[_kColumnCustomTeamInfo] as String)
-              //             as Map<String, dynamic>,
-              //         // element[_kColumnCustomTeamInfo] as Map<String, dynamic>,
-              //       ),
               customTeamInfo: CustomTeamInfo.fromJson(
                 jsonDecode(element[_kColumnCustomTeamInfo] as String)
+                    as Map<String, dynamic>,
+              ),
+              teamStats: TeamStats.fromJson(
+                jsonDecode(element[_kColumnTeamStats] as String)
                     as Map<String, dynamic>,
               ),
             ),

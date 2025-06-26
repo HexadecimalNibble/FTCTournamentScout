@@ -384,6 +384,13 @@ class _TeamScreenState extends State<TeamScreen> {
                   .toJson()
                   .toString(),
             ),
+            Text(
+              widget.viewModel.teams
+                  .firstWhere((t) => t.number == widget.teamNumber)
+                  .teamStats
+                  .toJson()
+                  .toString(),
+            ),
           ],
         ),
       ),
