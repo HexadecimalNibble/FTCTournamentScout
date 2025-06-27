@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:io';
 import 'dart:convert';
 import 'dart:math';
 import 'package:http/http.dart' as http;
@@ -17,15 +18,54 @@ import '../../../shared/providers/providers.dart';
 import '../../../shared/views/views.dart';
 import './teams_view_model.dart';
 
-class TeamsHomeScreen extends StatelessWidget {
-  TeamsHomeScreen({super.key, required this.viewModel});
+Future<Map<String, dynamic>> fetchAlbum() async {
+  final response = await http.get(
+    Uri.parse('https://ftc-api.firstinspires.org/v2.0/2024/teams?state=AZ'),
+    headers: {"Authorization": 'Basic '},
+  );
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    print(response.body);
+    return jsonDecode(response.body);
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load. ${response.statusCode}');
+  }
+}
+
+class TeamsHomeScreen extends StatefulWidget {
+  const TeamsHomeScreen({super.key, required this.viewModel});
 
   final TeamsViewModel viewModel;
 
+  @override
+  State<TeamsHomeScreen> createState() => _TeamsHomeScreenState();
+}
+
+class _TeamsHomeScreenState extends State<TeamsHomeScreen> {
   final _formKey = GlobalKey<FormState>();
   final numberController = TextEditingController();
   final nameController = TextEditingController();
   final customTeamInfo = TextEditingController();
+
+  late Future<Map<String, dynamic>> futureAlbum;
+
+  @override
+  void dispose() {
+    numberController.dispose();
+    nameController.dispose();
+    customTeamInfo.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    futureAlbum = fetchAlbum();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +75,7 @@ class TeamsHomeScreen extends StatelessWidget {
         toolbarHeight: kToolbarHeight * 2,
       ),
       body: ListenableBuilder(
-        listenable: viewModel,
+        listenable: widget.viewModel,
         builder: (context, _) {
           return SingleChildScrollView(
             scrollDirection: Axis.vertical,
@@ -47,7 +87,7 @@ class TeamsHomeScreen extends StatelessWidget {
                 DataColumn(label: Text('OPR')),
                 DataColumn(label: Text('')), // Action column (delete button)
               ],
-              rows: viewModel.teams.asMap().entries.map((entry) {
+              rows: widget.viewModel.teams.asMap().entries.map((entry) {
                 final index = entry.key;
                 final team = entry.value;
                 return DataRow.byIndex(
@@ -61,11 +101,11 @@ class TeamsHomeScreen extends StatelessWidget {
                     DataCell(Text(team.number.toString())),
                     DataCell(Text(team.name)),
                     DataCell(Text(team.teamStats.opr)),
-                    // TODO: MAYBE MOVE THE DELETE BUTTON TO BE INSIDE THE DETAILED TEAM VIEW
                     DataCell(
                       IconButton(
                         icon: const Icon(Icons.delete),
-                        onPressed: () => viewModel.delete.execute(team.number),
+                        onPressed: () =>
+                            widget.viewModel.delete.execute(team.number),
                       ),
                     ),
                   ],
@@ -85,7 +125,6 @@ class TeamsHomeScreen extends StatelessWidget {
             ),
             builder: (context) {
               return SizedBox(
-                // Box takes up 1/2 of window height
                 height: MediaQuery.of(context).size.height * 0.5,
                 child: DefaultTabController(
                   length: 2,
@@ -100,7 +139,6 @@ class TeamsHomeScreen extends StatelessWidget {
                       Expanded(
                         child: TabBarView(
                           children: [
-                            // First tab - Adding custom team
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: Form(
@@ -118,7 +156,7 @@ class TeamsHomeScreen extends StatelessWidget {
                                       validator: (value) {
                                         if (value == null ||
                                             int.tryParse(value) == null ||
-                                            viewModel.teams.any(
+                                            widget.viewModel.teams.any(
                                               (team) =>
                                                   team.number ==
                                                   int.tryParse(value),
@@ -149,10 +187,6 @@ class TeamsHomeScreen extends StatelessWidget {
                                         labelText: "Custom Team Info",
                                       ),
                                       validator: (value) {
-                                        // if (value == null || value.trim().isEmpty) return null;
-                                        // if (value.trim().isEmpty) {
-                                        //   return "Enter valid custom team info.";
-                                        // }
                                         return null;
                                       },
                                     ),
@@ -162,7 +196,7 @@ class TeamsHomeScreen extends StatelessWidget {
                                         onPressed: () {
                                           if (_formKey.currentState!
                                               .validate()) {
-                                            viewModel.add.execute(
+                                            widget.viewModel.add.execute(
                                               Team(
                                                 number: int.parse(
                                                   numberController.text,
@@ -185,10 +219,7 @@ class TeamsHomeScreen extends StatelessWidget {
                                                 ),
                                               ),
                                             );
-                                            // Reset form
                                             _formKey.currentState!.reset();
-
-                                            // Close menu
                                             Navigator.of(context).pop();
                                           }
                                         },
@@ -200,13 +231,13 @@ class TeamsHomeScreen extends StatelessWidget {
                               ),
                             ),
 
-                            // Second tab - Adding teams from existing event
+                            // Placeholder for second tab
                             Center(
-                              child: FutureBuilder<Album>(
+                              child: FutureBuilder<Map<String, dynamic>>(
                                 future: futureAlbum,
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
-                                    return Text(snapshot.data!.title);
+                                    return Text(snapshot.data!.toString());
                                   } else if (snapshot.hasError) {
                                     return Text('${snapshot.error}');
                                   }
@@ -214,7 +245,7 @@ class TeamsHomeScreen extends StatelessWidget {
                                   // By default, show a loading spinner.
                                   return const CircularProgressIndicator();
                                 },
-                              ),,
+                              ),
                             ),
                           ],
                         ),
