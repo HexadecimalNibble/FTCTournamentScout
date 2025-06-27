@@ -172,7 +172,7 @@ class _TeamScreenState extends State<TeamScreen> {
           children: [
             Text("General", style: context.titleLarge),
             const SizedBox(height: 10),
-            Text("OPR:", style: context.bodyLarge),
+            Text("OPR: ${team.teamStats.opr}", style: context.bodyLarge),
             TextFormField(
               controller: generalNotesController,
               decoration: const InputDecoration(labelText: "Notes"),
@@ -187,7 +187,10 @@ class _TeamScreenState extends State<TeamScreen> {
             const SizedBox(height: 20),
             Text("Auto", style: context.titleLarge),
             const SizedBox(height: 10),
-            Text("Auto OPR:", style: context.bodyLarge),
+            Text(
+              "Auto OPR: ${team.teamStats.autoOpr}",
+              style: context.bodyLarge,
+            ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -367,11 +370,17 @@ class _TeamScreenState extends State<TeamScreen> {
             const SizedBox(height: 20),
             Text("TeleOp", style: context.titleLarge),
             const SizedBox(height: 10),
-            Text("TeleOp OPR:", style: context.bodyLarge),
+            Text(
+              "TeleOp OPR: ${team.teamStats.teleOpOpr}",
+              style: context.bodyLarge,
+            ),
             const SizedBox(height: 20),
             Text("End Game", style: context.titleLarge),
             const SizedBox(height: 10),
-            Text("End Game OPR:", style: context.bodyLarge),
+            Text(
+              "End Game OPR: ${team.teamStats.endGameOpr}",
+              style: context.bodyLarge,
+            ),
             buildDropdown(
               label: 'Ascent Level',
               options: ['Option 1', 'Option 2', 'Option 3'],
