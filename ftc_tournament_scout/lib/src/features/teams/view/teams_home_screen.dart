@@ -4,6 +4,7 @@
 
 import 'dart:convert';
 import 'dart:math';
+import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:ftc_tournament_scout/src/features/teams/view/event_teams.dart';
@@ -200,7 +201,21 @@ class TeamsHomeScreen extends StatelessWidget {
                             ),
 
                             // Second tab - Adding teams from existing event
-                            Center(child: Text("text")),
+                            Center(
+                              child: FutureBuilder<Album>(
+                                future: futureAlbum,
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Text(snapshot.data!.title);
+                                  } else if (snapshot.hasError) {
+                                    return Text('${snapshot.error}');
+                                  }
+
+                                  // By default, show a loading spinner.
+                                  return const CircularProgressIndicator();
+                                },
+                              ),,
+                            ),
                           ],
                         ),
                       ),
