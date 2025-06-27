@@ -18,17 +18,20 @@ import '../../../shared/providers/providers.dart';
 import '../../../shared/views/views.dart';
 import './teams_view_model.dart';
 
+final apiKey = "";
+
 Future<Map<String, dynamic>> fetchAlbum() async {
   final response = await http.get(
     Uri.parse('https://ftc-api.firstinspires.org/v2.0/2024/teams?state=AZ'),
-    headers: {"Authorization": 'Basic '},
+    headers: {"Authorization": 'Basic $apiKey'},
   );
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    print(response.body);
-    return jsonDecode(response.body);
+    final returnResponse = jsonDecode(response.body)['teams']['teamNumber'];
+    print(returnResponse);
+    return returnResponse;
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
