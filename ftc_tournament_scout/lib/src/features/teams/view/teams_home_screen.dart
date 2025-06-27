@@ -7,6 +7,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:ftc_tournament_scout/src/features/teams/view/event_teams.dart';
+import 'package:ftc_tournament_scout/src/shared/classes/team_stats.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_color_utilities/utils/math_utils.dart';
 
@@ -23,7 +24,6 @@ class TeamsHomeScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final numberController = TextEditingController();
   final nameController = TextEditingController();
-  final oprController = TextEditingController();
   final customTeamInfo = TextEditingController();
 
   @override
@@ -59,7 +59,7 @@ class TeamsHomeScreen extends StatelessWidget {
                   cells: [
                     DataCell(Text(team.number.toString())),
                     DataCell(Text(team.name)),
-                    DataCell(Text(team.opr.toString())),
+                    DataCell(Text(team.teamStats.opr)),
                     // TODO: MAYBE MOVE THE DELETE BUTTON TO BE INSIDE THE DETAILED TEAM VIEW
                     DataCell(
                       IconButton(
@@ -143,24 +143,6 @@ class TeamsHomeScreen extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 10),
                                     TextFormField(
-                                      controller: oprController,
-                                      decoration: const InputDecoration(
-                                        labelText: "OPR",
-                                      ),
-                                      keyboardType:
-                                          TextInputType.numberWithOptions(
-                                            decimal: true,
-                                          ),
-                                      validator: (value) {
-                                        if (value == null) return null;
-                                        if (double.tryParse(value) == null) {
-                                          return "Enter a valid OPR or omit this value.";
-                                        }
-                                        return null;
-                                      },
-                                    ),
-                                    const SizedBox(height: 10),
-                                    TextFormField(
                                       controller: customTeamInfo,
                                       decoration: const InputDecoration(
                                         labelText: "Custom Team Info",
@@ -186,11 +168,6 @@ class TeamsHomeScreen extends StatelessWidget {
                                                 ),
                                                 name: nameController.text
                                                     .trim(),
-                                                opr: oprController.text.isEmpty
-                                                    ? 0.0
-                                                    : double.parse(
-                                                        oprController.text,
-                                                      ),
                                                 customTeamInfo:
                                                     customTeamInfo.text.isEmpty
                                                     ? CustomTeamInfo()
@@ -199,6 +176,12 @@ class TeamsHomeScreen extends StatelessWidget {
                                                           customTeamInfo.text,
                                                         ),
                                                       ),
+                                                teamStats: TeamStats(
+                                                  opr: "1.0",
+                                                  autoOpr: "2.0",
+                                                  teleOpOpr: "3.0",
+                                                  endGameOpr: "4.0",
+                                                ),
                                               ),
                                             );
                                             // Reset form

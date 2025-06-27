@@ -16,7 +16,6 @@ class DatabaseService {
   static const _kTableTeams = 'teams';
   static const _kColumnNumber = 'number';
   static const _kColumnName = 'name';
-  static const _kColumnOPR = 'opr';
   static const _kColumnCustomTeamInfo = 'customTeamInfo';
   static const _kColumnTeamStats = 'teamStats';
 
@@ -34,7 +33,7 @@ class DatabaseService {
       options: OpenDatabaseOptions(
         onCreate: (db, version) {
           return db.execute(
-            'CREATE TABLE $_kTableTeams($_kColumnNumber INTEGER PRIMARY KEY, $_kColumnName TEXT, $_kColumnOPR REAL, $_kColumnCustomTeamInfo TEXT, $_kColumnTeamStats TEXT)',
+            'CREATE TABLE $_kTableTeams($_kColumnNumber INTEGER PRIMARY KEY, $_kColumnName TEXT, $_kColumnCustomTeamInfo TEXT, $_kColumnTeamStats TEXT)',
           );
         },
         version: 1,
@@ -47,7 +46,6 @@ class DatabaseService {
       await _database!.insert(_kTableTeams, {
         _kColumnNumber: team.number,
         _kColumnName: team.name,
-        _kColumnOPR: team.opr,
         _kColumnCustomTeamInfo: jsonEncode(team.customTeamInfo.toJson()),
         _kColumnTeamStats: jsonEncode(team.teamStats.toJson()),
       });
@@ -65,7 +63,6 @@ class DatabaseService {
         _kTableTeams,
         {
           _kColumnName: team.name,
-          _kColumnOPR: team.opr,
           _kColumnCustomTeamInfo: jsonEncode(team.customTeamInfo.toJson()),
           _kColumnTeamStats: jsonEncode(team.teamStats.toJson()),
         },
@@ -85,7 +82,6 @@ class DatabaseService {
         columns: [
           _kColumnNumber,
           _kColumnName,
-          _kColumnOPR,
           _kColumnCustomTeamInfo,
           _kColumnTeamStats,
         ],
@@ -95,7 +91,6 @@ class DatabaseService {
             (element) => Team(
               number: element[_kColumnNumber] as int,
               name: element[_kColumnName] as String,
-              opr: element[_kColumnOPR] as double,
               customTeamInfo: CustomTeamInfo.fromJson(
                 jsonDecode(element[_kColumnCustomTeamInfo] as String)
                     as Map<String, dynamic>,

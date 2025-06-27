@@ -6,7 +6,6 @@ class Team {
   Team({
     required this.number,
     required this.name,
-    required this.opr,
     CustomTeamInfo? customTeamInfo,
     TeamStats? teamStats,
     // If parameter isn't specified (is null), create empty object for parameter
@@ -14,7 +13,6 @@ class Team {
        teamStats = teamStats ?? TeamStats();
   final int number;
   final String name;
-  final double opr;
   final CustomTeamInfo customTeamInfo;
   final TeamStats teamStats;
 }
