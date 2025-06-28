@@ -383,8 +383,12 @@ class _TeamScreenState extends State<TeamScreen> {
             ),
             buildDropdown(
               label: 'Ascent Level',
-              options: ['Option 1', 'Option 2', 'Option 3'],
-              onChanged: (value) {},
+              options: ['', 'L1/Park', 'L2', 'L3'],
+              selectedValue: team.customTeamInfo.ascentLevel,
+              onChanged: (value) => setState(() {
+                team.customTeamInfo.ascentLevel = value!;
+                updateTeam(team);
+              }),
             ),
             Text(
               widget.viewModel.teams

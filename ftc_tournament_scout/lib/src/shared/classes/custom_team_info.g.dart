@@ -13,6 +13,7 @@ CustomTeamInfo _$CustomTeamInfoFromJson(Map<String, dynamic> json) =>
       leftAutoNotes: json['leftAutoNotes'] as String? ?? "",
       rightAuto: json['rightAuto'] as String? ?? "",
       rightAutoNotes: json['rightAutoNotes'] as String? ?? "",
+      ascentLevel: json['ascentLevel'] as String? ?? "",
     );
 
 Map<String, dynamic> _$CustomTeamInfoToJson(CustomTeamInfo instance) =>
@@ -22,4 +23,5 @@ Map<String, dynamic> _$CustomTeamInfoToJson(CustomTeamInfo instance) =>
       'leftAutoNotes': instance.leftAutoNotes,
       'rightAuto': instance.rightAuto,
       'rightAutoNotes': instance.rightAutoNotes,
+      'ascentLevel': instance.ascentLevel,
     };

@@ -54,7 +54,7 @@ class _TeamsHomeScreenState extends State<TeamsHomeScreen> {
   final nameController = TextEditingController();
   final customTeamInfo = TextEditingController();
 
-  late Future<Map<String, dynamic>> futureAlbum;
+  // late Future<Map<String, dynamic>> futureAlbum;
 
   @override
   void dispose() {
@@ -67,7 +67,7 @@ class _TeamsHomeScreenState extends State<TeamsHomeScreen> {
   @override
   void initState() {
     super.initState();
-    futureAlbum = fetchAlbum();
+    // futureAlbum = fetchAlbum();
   }
 
   @override
@@ -233,23 +233,23 @@ class _TeamsHomeScreenState extends State<TeamsHomeScreen> {
                                 ),
                               ),
                             ),
-
+                            Center(),
                             // Placeholder for second tab
-                            Center(
-                              child: FutureBuilder<Map<String, dynamic>>(
-                                future: futureAlbum,
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Text(snapshot.data!.toString());
-                                  } else if (snapshot.hasError) {
-                                    return Text('${snapshot.error}');
-                                  }
+                            // Center(
+                            //   child: FutureBuilder<Map<String, dynamic>>(
+                            //     future: futureAlbum,
+                            //     builder: (context, snapshot) {
+                            //       if (snapshot.hasData) {
+                            //         return Text(snapshot.data!.toString());
+                            //       } else if (snapshot.hasError) {
+                            //         return Text('${snapshot.error}');
+                            //       }
 
-                                  // By default, show a loading spinner.
-                                  return const CircularProgressIndicator();
-                                },
-                              ),
-                            ),
+                            //       // By default, show a loading spinner.
+                            //       return const CircularProgressIndicator();
+                            //     },
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),
