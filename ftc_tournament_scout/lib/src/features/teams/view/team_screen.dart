@@ -374,6 +374,8 @@ class _TeamScreenState extends State<TeamScreen> {
               "TeleOp OPR: ${team.teamStats.teleOpOpr}",
               style: context.bodyLarge,
             ),
+            const SizedBox(height: 10),
+            // CONTENT HERE
             const SizedBox(height: 20),
             Text("End Game", style: context.titleLarge),
             const SizedBox(height: 10),
@@ -381,6 +383,7 @@ class _TeamScreenState extends State<TeamScreen> {
               "End Game OPR: ${team.teamStats.endGameOpr}",
               style: context.bodyLarge,
             ),
+            const SizedBox(height: 10),
             buildDropdown(
               label: 'Ascent Level',
               options: ['', 'L1/Park', 'L2', 'L3'],
