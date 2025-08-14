@@ -79,6 +79,8 @@ class _TeamScreenState extends State<TeamScreen> {
         });
       }
     });
+
+    team.teamStats.opr = 
   }
 
   @override
