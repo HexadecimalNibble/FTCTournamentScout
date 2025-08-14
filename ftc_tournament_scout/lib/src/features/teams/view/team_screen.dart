@@ -2,7 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../shared/classes/classes.dart';
 import '../../../shared/extensions.dart';
@@ -162,7 +165,23 @@ class _TeamScreenState extends State<TeamScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("${team.name} - #${team.number}"),
+        title: RichText(
+          text: TextSpan(
+            style: context.titleLarge?.copyWith(
+              decoration: TextDecoration.underline,
+            ),
+            text: "${team.name} - #${team.number}",
+            recognizer: TapGestureRecognizer()
+              ..onTap = () async {
+                final Uri url = Uri.parse(
+                  'https://ftcscout.org/teams/${team.number}',
+                );
+                if (await canLaunchUrl(url)) {
+                  await launchUrl(url);
+                }
+              },
+          ),
+        ),
         toolbarHeight: kToolbarHeight * 2,
       ),
       body: Form(
