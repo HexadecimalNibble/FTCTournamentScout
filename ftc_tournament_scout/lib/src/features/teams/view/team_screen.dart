@@ -57,7 +57,7 @@ class _TeamScreenState extends State<TeamScreen> {
 
     newLeftAutoController.addListener(() {
       final text = newLeftAutoController.text.trim();
-      final regex = RegExp(r"^[0-9]+ *[\+, ] *[0-9]+$");
+      final regex = RegExp(r"^[0-9]+ *[\+, ] *[0-9]+ *$");
       final valid = regex.hasMatch(text);
       if (valid != isLeftAutoInputValid) {
         setState(() {
@@ -68,7 +68,7 @@ class _TeamScreenState extends State<TeamScreen> {
 
     newRightAutoController.addListener(() {
       final text = newRightAutoController.text.trim();
-      final regex = RegExp(r"^[0-9]+ *[\+, ] *[0-9]+$");
+      final regex = RegExp(r"^[0-9]+ *[\+, ] *[0-9]+ *$");
       final valid = regex.hasMatch(text);
       if (valid != isRightAutoInputValid) {
         setState(() {
@@ -242,7 +242,7 @@ class _TeamScreenState extends State<TeamScreen> {
                                 if (value == null || value == "") return null;
 
                                 if (!RegExp(
-                                  r"^[0-9]+ *[\+, ] *[0-9]+$",
+                                  r"^[0-9]+ *[\+, ] *[0-9]+ *$",
                                 ).hasMatch(value)) {
                                   return "Enter as: Specimens+Samples (2+1) or similar";
                                 }
@@ -328,7 +328,7 @@ class _TeamScreenState extends State<TeamScreen> {
                                 if (value == null || value == "") return null;
 
                                 if (!RegExp(
-                                  r"^[0-9]+ *[\+, ] *[0-9]+$",
+                                  r"^[0-9]+ *[\+, ] *[0-9]+ *$",
                                 ).hasMatch(value)) {
                                   return "Enter as: Specimens+Samples (2+1) or similar";
                                 }
